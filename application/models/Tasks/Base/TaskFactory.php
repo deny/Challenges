@@ -3,7 +3,7 @@
 /**
  * @namespace
  */
-namespace \Model\Tasks;
+namespace Model\Tasks\Base;
 
 /**
  * Factory base trait

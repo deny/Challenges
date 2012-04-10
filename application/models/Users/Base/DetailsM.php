@@ -17,12 +17,12 @@ trait DetailsM
 	/**
 	 * @var	string
 	 */
-	private $sName = gal;
+	private $sName = 'gal';
 
 	/**
 	 * @var	string
 	 */
-	private $sSurname = anonim;
+	private $sSurname = 'anonim';
 
 
 // INITIALIZATION

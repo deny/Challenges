@@ -3,7 +3,7 @@
 /**
  * @namespace
  */
-namespace \Model\Users;
+namespace Model\Users\Base;
 
 /**
  * Factory base trait

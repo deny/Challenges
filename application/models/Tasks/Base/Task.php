@@ -20,7 +20,7 @@ trait Task
 	private $iAuthorId = null;
 
 	/**
-	 * @var	\Model\Tasks\Users:Moderator
+	 * @var	\Model\Tasks\Moderator
 	 */
 	private $oAuthor = null;
 
@@ -79,7 +79,7 @@ trait Task
 // GETTERS
 
 	/**
-	 * @return	\Model\Tasks\Users:Moderator
+	 * @return	\Model\Tasks\Moderator
 	 */
 	public function getAuthorId()
 	{
@@ -87,13 +87,13 @@ trait Task
 	}
 
 	/**
-	 * @return	\Model\Tasks\Users:Moderator
+	 * @return	\Model\Tasks\Moderator
 	 */
 	public function getAuthor()
 	{
 		if(!isset($this->oAuthor))
 		{
-			$this->oAuthor = \Model\Tasks\Users:ModeratorFactory::getInstance()->getOne($this->iAuthorId);
+			$this->oAuthor = \Model\Tasks\ModeratorFactory::getInstance()->getOne($this->iAuthorId);
 		}
 
 		return $this->oAuthor;

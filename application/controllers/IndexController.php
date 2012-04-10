@@ -1,18 +1,18 @@
 <?php
 
 use \Model\Users\User;
+use \Model\Users\UserFactory;
 
 /**
  * Class IndexController
  */
-class IndexController extends Zend_Controller_Action {
+class IndexController extends Core_Controller_Action {
 
     /**
      * indexAction
      */
-
     public function indexAction()
 	{
-		$oUser = new User();
+		echo $this->oCurrentUser->getEmail();
     }
 }

@@ -37,7 +37,7 @@ trait Solution
 	private $iAuthorId = null;
 
 	/**
-	 * @var	\Model\Tasks\Users:User
+	 * @var	\Model\Tasks\User
 	 */
 	private $oAuthor = null;
 
@@ -134,7 +134,7 @@ trait Solution
 	}
 
 	/**
-	 * @return	\Model\Tasks\Users:User
+	 * @return	\Model\Tasks\User
 	 */
 	public function getAuthorId()
 	{
@@ -142,13 +142,13 @@ trait Solution
 	}
 
 	/**
-	 * @return	\Model\Tasks\Users:User
+	 * @return	\Model\Tasks\User
 	 */
 	public function getAuthor()
 	{
 		if(!isset($this->oAuthor))
 		{
-			$this->oAuthor = \Model\Tasks\Users:UserFactory::getInstance()->getOne($this->iAuthorId);
+			$this->oAuthor = \Model\Tasks\UserFactory::getInstance()->getOne($this->iAuthorId);
 		}
 
 		return $this->oAuthor;
