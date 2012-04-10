@@ -10,7 +10,7 @@
 	</Task>
 	<Solution>
 		<field name="task"		type="Task"			access="get" />
-		<field name="author"	type="User"			access="get" />
+		<field name="author"	type="Users:User"	access="get" />
 		<field name="code"		type="string"		access="get,set" />
 		<field name="info"		type="string"		access="get,set" />
 		<field name="run_time"	type="int"			access="get,set" />

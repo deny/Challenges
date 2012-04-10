@@ -66,11 +66,11 @@ trait User
 		$aComponents[] = self::info();
 		parent::init($aRow, $aComponents);
 
-		$this->sEmail = $aRow['email'];
-		$this->sPasswd = $aRow['passwd'];
-		$this->sSalt = $aRow['salt'];
-		$this->sRole = $aRow['role'];
-		$this->sStatus = $aRow['status'];
+		$this->sEmail = $aRow['u_email'];
+		$this->sPasswd = $aRow['u_passwd'];
+		$this->sSalt = $aRow['u_salt'];
+		$this->sRole = $aRow['u_role'];
+		$this->sStatus = $aRow['u_status'];
 
 
 		if(isset($aRow['_details']))

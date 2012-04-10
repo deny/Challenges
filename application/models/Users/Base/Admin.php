@@ -33,7 +33,7 @@ trait Admin
 		$aComponents[] = self::info();
 		parent::init($aRow, $aComponents);
 
-		$this->sLoginAttempts = $aRow['login_attempts'];
+		$this->sLoginAttempts = $aRow['uea_login_attempts'];
 
 
 

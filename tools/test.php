@@ -43,17 +43,17 @@ use \ScaZF\Tool\Validator\Schema;
 $oManager = Manager::getInstance();
 $oManager->init(CURRENT_PATH . '/Models', CURRENT_PATH .'/tools/Xml/Package.xsf');
 
-$sPackage = 'Users';
+$sPackage = 'Tasks';
 $sModelPath = '/home/WWW/PK_4/Challenges/application/models/'. $sPackage . '/Base';
 
 mkdir($sModelPath, 0777, true);
 
 try
 {
-	$oManager->setDefaultPackage('Users');
-	$oManager->loadPackage('Users');
+	$oManager->setDefaultPackage($sPackage);
+	$oManager->loadPackage($sPackage);
 	$oValidator = new Schema();
-	if(!$oValidator->isValid($oManager->getPackage('Users')))
+	if(!$oValidator->isValid($oManager->getPackage($sPackage)))
 	{
 		\ScaZF\Tool\Base\Screamer\Screamer::getInstance()->screamErrors($oValidator);
 		die("\n");

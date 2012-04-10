@@ -43,9 +43,9 @@ trait DetailsU
 		$aComponents[] = self::info();
 		parent::init($aRow, $aComponents);
 
-		$this->sName = $aRow['name'];
-		$this->sSurname = $aRow['surname'];
-		$this->iIndexId = $aRow['index_id'];
+		$this->sName = $aRow['ucd_name'];
+		$this->sSurname = $aRow['ucd_surname'];
+		$this->iIndexId = $aRow['ucd_index_id'];
 
 
 
@@ -63,11 +63,10 @@ trait DetailsU
 	{
 		$aComponents = [self::info()];
 		$aTmp = [
-			ucd_id	=> $oOwner->getId(),
-			'name' => $this->sName
-			'surname' => $this->sSurname
-			'index_id' => $this->iIndexId
-
+			'ucd_id'	=> $oOwner->getId(),
+			'ucd_name' => $this->sName,
+			'ucd_surname' => $this->sSurname,
+			'ucd_index_id' => $this->iIndexId
 		];
 		parent::initDefault($aTmp, $aComponents);
 		return $this;
