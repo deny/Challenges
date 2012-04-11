@@ -28,6 +28,7 @@ class Core_Controller_Action extends \Zend_Controller_Action
 		parent::init();
 
 		$this->oCurrentUser = \Model\Users\ModeratorFactory::getInstance()->getOne(2);
+		$this->view->assign('oCurrentUser', $this->oCurrentUser);
 	}
 
 	/**
@@ -59,6 +60,31 @@ class Core_Controller_Action extends \Zend_Controller_Action
 		else
 		{
 			$this->_helper->flashMessenger->addMsg($sMessage, $sType);
+		}
+	}
+
+	/**
+	 * Sprawdza czy user jest zalogowany i czy ma odpowiednią rolę
+	 *
+	 * @param	array|string	$mType
+	 * @return	void
+	 */
+	protected function mustBe($mType)
+	{
+		if($this->oCurrentUser === null)
+		{
+			$this->addMessage('Aby mieć dostęp do portalu musisz się zalogować');
+			$this->_redirect('/');
+			exit();
+		}
+
+		$mType = is_array($mType) ? $mType : [$mType];
+
+		if(!in_array($this->oCurrentUser->getRole(), $mType))
+		{
+			$this->addMessage('Nie masz dostępu do wybranej zwartości');
+			$this->_redirect('/');
+			exit();
 		}
 	}
 

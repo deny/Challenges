@@ -1,0 +1,38 @@
+<?php
+	$bEdit = isset($this->oSolution);
+	$aEmpty = ['' => '-- wybierz z listy --']
+?>
+
+<?php if(isset($this->oTask)):?>
+	<h1>Edycja rozwiązania</h1>
+<?php else:?>
+	<h1>Dodawanie nowego rozwiązania</h1>
+<?php endif;?>
+
+<h2>Zadanie: <?php echo $this->oTask->getName() ?></h2>
+
+<p> <?php echo $this->oTask->getDescription() ?></p>
+
+<?php if($bEdit && $this->oSolution->getInfo() !== null): ?>
+	<p class="error"><?php echo $this->oSolution->getInfo() ?></p>
+<?php endif; ?>
+
+<form method="post" action="/solutions<?php echo $bEdit ? '/edit/id/'. $this->oSolution->getId() : '/add/id/'. $this->oTask->getId() ?>">
+	<?php $sField = 'language';
+	echo $this->form_Field(
+		'język',
+		$sField,
+		$this->formSelect($sField, $this->form_Value($sField), null, $aEmpty + [
+			\Model\Tasks\Solution::LANGUAGE_PHP	=> 'PHP 5.4'
+		])
+	)?>
+
+	<?php $sField = 'code';
+	echo $this->form_Field(
+		'rozwiązanie',
+		$sField,
+		$this->formTextarea($sField, $this->form_Value($sField), array('cols' => 70, 'rows' => 5))
+	)?>
+
+	<button type="submit"><?php echo $bEdit ? 'zapisz' : 'dodaj'?></button>
+</form>

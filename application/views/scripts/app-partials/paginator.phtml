@@ -1,0 +1,74 @@
+<?php
+
+$sInitText = empty($this->initText) ? 'Strona: ' : $this->initText . ' ';
+
+if($this->pageCount > 1)
+{
+	$sParam = empty($this->pname) ? '' : '/' . $this->pname;
+	$sNext = empty($this->nextText) ? 'Następna' : $this->nextText;
+	$sPrev = empty($this->prevText) ? 'Poprzednia' : $this->prevText;
+	$iCount = empty($this->pcount) ? 4 : $this->pcount;
+
+
+	// obliczenie zakresu stron
+	if($this->pageCount > 2 * $iCount) // liczba stron większa niż chcemy wyświetlać
+	{
+		// wyliczamy zakresy
+		$iStart = $this->current - $iCount; // numer pierwszej strony widocznej na lewo od aktualnej
+
+		if($iStart < 1)
+		{
+			$iStart = 1;
+			$iEnd = 2 * $iCount + 1;
+		}
+		elseif($this->pageCount - $this->current <= $iCount)
+		{
+			$iEnd = $this->pageCount;
+			$iStart = $this->pageCount- 2 * $iCount;
+		}
+		else
+		{
+			$iEnd = $this->current + $iCount;
+		}
+	}
+	else // liczba stron mieści się w limicie - wyświetlamy wszystko
+	{
+		$iStart = 1;
+		$iEnd = $this->pageCount;
+	}
+?>
+<div class="pagination">
+	<strong><?php echo $sInitText; ?></strong>
+	<ul>
+<?php	if(isset($this->previous) && ($this->previous > 1 || isset($this->disableIndexRmv))): ?>
+				<li><a href="<?php echo $this->actionUrl . $sParam . '/' . $this->previous?>">&laquo; <?php echo $sPrev; ?></a></li>
+<?php	elseif(isset($this->previous)): ?>
+				<li><a href="<?php echo $this->actionUrl?>">&laquo; <?php echo $sPrev; ?></a></li>
+<?php	endif; ?>
+<?php	if($iStart > 1):?>
+				<li><a href="<?php echo $this->actionUrl . $sParam . '/1'?>">1</a></li>
+<?php	endif;?>
+<?php	if($iStart > 2):?>
+				<li>&hellip;</li>
+<?php	endif;?>
+<?php	for($iPage = $iStart; $iPage <= $iEnd; $iPage++):?>
+<?php		if($iPage != $this->current):?>
+				<li><a href="<?php echo $this->actionUrl . $sParam . '/' . $iPage?>"><?php echo $iPage; ?></a></li>
+<?php		else:?>
+				<li class="current"><a><?php echo $iPage; ?></a></li>
+<?php		endif;?>
+<?php	endfor;?>
+<?php	if($iEnd < $this->pageCount - 1):?>
+				<li>&hellip;</li>
+<?php	endif;?>
+<?php	if($iEnd < $this->pageCount):?>
+				<li><a href="<?php echo $this->actionUrl . $sParam . '/' . $this->pageCount?>"><?php echo $this->pageCount; ?></a></li>
+<?php	endif;?>
+<?php	if(isset($this->next)):?>
+				<li><a href="<?php echo $this->actionUrl . $sParam . '/' . $this->next?>"><?php echo $sNext; ?> &raquo;</a></li>
+<?php	endif; ?>
+	</ul>
+</div>
+<?php
+}
+?>

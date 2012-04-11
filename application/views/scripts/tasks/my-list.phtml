@@ -1,16 +1,15 @@
-<h1>Lista wszystkich zadań</h1>
+<h1>Lista moich zadań</h1>
 
-<?php if(isset($this->oCurrentUser) && $this->oCurrentUser->getRole() == \Model\Users\User::ROLE_MOD): ?>
-	<a href="/tasks/my-list">moje zadania</a>
-	<br /><br />
-<?php endif; ?>
+<a href="/tasks/list">wróć do listy wszystkich zadań</a> |
+<a href="/tasks/add">dodaj nowe zadanie</a>
+<br /><br />
 
 <table>
 	<thead>
 		<tr>
 			<td>Nazwa zadania</td>
 			<td>Opis zadania</td>
-			<td>Autor</td>
+			<td>Akcje</td>
 		</tr>
 	</thead>
 	<tbody>
@@ -22,7 +21,10 @@
 				</a>
 			</td>
 			<td><?php echo substr($oTask->getDescription(), 0, 120) ?></td>
-			<td><?php echo $oTask->getAuthor()->getFullName() ?></td>
+			<td>
+				<a href="/tasks/edit/id/<?php echo $oTask->getId() ?>">edytuj</a> |
+				<a href="/tasks/del/id/<?php echo $oTask->getId() ?>">usuń</a>
+			</td>
 		</tr>
 <?php endforeach;?>
 	</tbody>

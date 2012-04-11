@@ -1,11 +1,14 @@
 <?php
 
+use \Model\Users\User;
 
 /**
  * Class IndexController
  */
 class TasksController extends Core_Controller_Action
 {
+	CONST ITEMS_COUNT = 10;
+
 	/**
 	 * Fabryka zadań
 	 *
@@ -22,15 +25,16 @@ class TasksController extends Core_Controller_Action
 
 		$this->oTaskF = \Model\Tasks\TaskFactory::getInstance();
 	}
-    /**
-     * indexAction
-     */
-    public function indexAction()
-	{
-    }
 
+// USER-SECTION
+
+	/**
+	 * Lista wszystkich zadań
+	 */
 	public function listAction()
 	{
+		$this->mustBe([User::ROLE_USER, User::ROLE_MOD]);
+
 		$iPage = $this->_request->getParam('page', 1);
 
 		if($iPage < 1)
@@ -38,7 +42,45 @@ class TasksController extends Core_Controller_Action
 			$this->moveTo404();
 		}
 
-		$oPaginator = $this->oTaskF->getPaginator($iPage, 10, [], null, ['author']);
+		$oPaginator = $this->oTaskF->getPaginator($iPage, self::ITEMS_COUNT, ['t_name'], null, ['author']);
+
+		if($oPaginator->count() > 0 && $iPage > $oPaginator->count())
+		{
+			$this->moveTo404();
+			exit();
+		}
+
+		$this->view->assign('oPaginator', $oPaginator);
+	}
+
+	/**
+	 * Pokazuje szczegóły zadania
+	 */
+	public function showAction()
+	{
+		$this->mustBe([User::ROLE_USER, User::ROLE_MOD]);
+		$this->view->assign('oTask', $this->getTask());
+	}
+
+// MODERATOR-SECTION
+
+	/**
+	 * Moderator tasks list
+	 */
+	public function myListAction()
+	{
+		$this->mustBe(User::ROLE_MOD);
+
+		$iPage = $this->_request->getParam('page', 1);
+
+		if($iPage < 1)
+		{
+			$this->moveTo404();
+		}
+
+		$oWhere = new \Sca\DataObject\Where('t_author = ?', $this->oCurrentUser->getId());
+
+		$oPaginator = $this->oTaskF->getPaginator($iPage, self::ITEMS_COUNT, ['t_name'], $oWhere);
 
 		if($oPaginator->count() > 0 && $iPage > $oPaginator->count())
 		{
@@ -54,6 +96,8 @@ class TasksController extends Core_Controller_Action
 	 */
 	public function addAction()
 	{
+		$this->mustBe(User::ROLE_MOD);
+
 		if($this->_request->isPost())
 		{
 			$oFilter = $this->getFilter();
@@ -71,7 +115,7 @@ class TasksController extends Core_Controller_Action
 				);
 
 				$this->addMessage('Zadanie zostało pomyślnie dodane do listy zadań');
-				$this->_redirect('/tasks/list');
+				$this->_redirect('/tasks/my-list');
 				exit();
 			}
 
@@ -86,6 +130,8 @@ class TasksController extends Core_Controller_Action
 	 */
 	public function editAction()
 	{
+		$this->mustBe(User::ROLE_MOD);
+
 		$oTask = $this->getTask();
 
 		if($this->_request->isPost())
@@ -103,7 +149,7 @@ class TasksController extends Core_Controller_Action
 				$oTask->save();
 
 				$this->addMessage('Zadanie zostało pomyślnie zmienione');
-				$this->_redirect('/tasks/list');
+				$this->_redirect('/tasks/my-list');
 				exit();
 			}
 
@@ -124,15 +170,17 @@ class TasksController extends Core_Controller_Action
 	}
 
 	/**
-	 * Usuwania zadania
+	 * Usuwanie zadania
 	 */
 	public function delAction()
 	{
+		$this->mustBe(User::ROLE_MOD);
+
 		$oTask = $this->getTask();
 		$oTask->delete();
 
 		$this->addMessage('Zadanie zostało pomyślnie usunięte');
-		$this->_redirect('/tasks/list');
+		$this->_redirect('/tasks/my-list');
 		exit();
 	}
 

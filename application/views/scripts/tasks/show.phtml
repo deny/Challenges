@@ -1,0 +1,18 @@
+<h1><?php echo $this->oTask->getName()?></h1>
+
+	<a href="/tasks/list">lista zadań</a>
+<?php if(isset($this->oCurrentUser) && $this->oCurrentUser->getRole() == \Model\Users\User::ROLE_MOD): ?>
+	|
+	<a href="/tasks/my-list">moja lista zadań</a> |
+	<a href="/tasks/edit/id/<?php echo $this->oTask->getId()?>">edytuj zadanie</a> |
+	<a href="/tasks/del/id/<?php echo $this->oTask->getId()?>">usuń zadanie</a>
+	<br /><br />
+<?php endif; ?>
+
+<?php if(isset($this->oCurrentUser)): ?>
+	<a href="/solutions/add/id/<?php echo $this->oTask->getId()?>">zgłoś rozwiązanie</a>
+	<br /><br />
+<?php endif; ?>
+
+<label>Opis:</label>
+<p><?php echo $this->oTask->getDescription()?></p>

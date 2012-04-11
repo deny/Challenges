@@ -1,0 +1,40 @@
+<h1>Lista moich rozwiązań</h1>
+
+<a href="/tasks/list">wróć do listy wszystkich zadań</a>
+<br /><br />
+
+<table>
+	<thead>
+		<tr>
+			<td>Nazwa zadania</td>
+			<td>Czas wykonania</td>
+			<td>Status</td>
+		</tr>
+	</thead>
+	<tbody>
+<?php foreach($this->oPaginator as $oSolution): ?>
+		<tr>
+			<td>
+				<a href="/solutions/edit/id/<?php echo $oSolution->getId() ?>">
+					<?php echo $oSolution->getTask()->getName() ?>
+				</a>
+			</td>
+			<td><?php echo $oSolution->getRunTime() ?></td>
+			<td>
+				<?php switch($oSolution->getStatus()) {
+						case \Model\Tasks\Solution::STATUS_NEW: echo 'oczekuje na ocenę'; break;
+						case \Model\Tasks\Solution::STATUS_TESTING: echo 'w trakcie oceny'; break;
+						case \Model\Tasks\Solution::STATUS_SUCCESS: echo 'sukces'; break;
+						case \Model\Tasks\Solution::STATUS_ERROR: echo 'błąd'; break;
+				}?>
+			</td>
+		</tr>
+<?php endforeach;?>
+	</tbody>
+</table>
+
+<?php echo $this->paginator($this->oPaginator, [
+	'pname'		=> 'page',
+	'pcount'	=> 6,
+	'actionUrl'	=> '/solutions/my-list'
+]);?>
