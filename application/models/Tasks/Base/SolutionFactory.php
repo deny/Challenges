@@ -102,8 +102,9 @@ trait SolutionFactory
 			$aInfo = \Model\Tasks\Task::info();
 			$oSelect->join(
 				$aInfo['table'] .' AS '. $aInfo['alias'],
-				$aInfo['alias'] .'.'. $aInfo['key'] .' = '. $aThis['alias'] .'.d_user'
+				$aInfo['alias'] .'.'. $aInfo['key'] .' = '. $aThis['alias'] .'.s_task'
 			);
+
 		}
 
 		if(in_array('author', $aOptions)) // zawiera pole
@@ -112,8 +113,9 @@ trait SolutionFactory
 			$aInfo = \Model\Users\User::info();
 			$oSelect->join(
 				$aInfo['table'] .' AS '. $aInfo['alias'],
-				$aInfo['alias'] .'.'. $aInfo['key'] .' = '. $aThis['alias'] .'.d_user'
+				$aInfo['alias'] .'.'. $aInfo['key'] .' = '. $aThis['alias'] .'.s_author'
 			);
+
 		}
 
 

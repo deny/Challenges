@@ -2,14 +2,6 @@
 
 class ErrorController extends Zend_Controller_Action
 {
-	public function init()
-	{
-		Zend_Controller_Action_HelperBroker::getExistingHelper('ViewRenderer')
-				->view->addScriptPath(APPLICATION_PATH .'/modules/default/views');
-
-		parent::init();
-	}
-
     public function errorAction()
     {
         $errors = $this->_getParam('error_handler');
@@ -63,4 +55,3 @@ class ErrorController extends Zend_Controller_Action
 
 
 }
-

@@ -1,0 +1,20 @@
+<h1>Lista wszystkich zadań</h1>
+
+<table>
+	<thead>
+		<tr>
+			<td>Nazwa zadania</td>
+			<td>Opis zadania</td>
+			<td>Autor</td>
+		</tr>
+	</thead>
+	<tbody>
+<?php foreach($this->oPaginator as $oTask): ?>
+		<tr>
+			<td><?php echo $oTask->getName() ?></td>
+			<td><?php echo substr($oTask->getDescription(), 0, 120) ?></td>
+			<td><?php echo $oTask->getAuthor()->getFullName() ?></td>
+		</tr>
+<?php endforeach;?>
+	</tbody>
+</table>

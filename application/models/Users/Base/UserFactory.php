@@ -32,13 +32,15 @@ trait UserFactory
 	 * @param	string	sEmail
 	 * @param	string	sPasswd
 	 * @param	string	sSalt
+	 * @param	string	sName
+	 * @param	string	sSurname
 	 * @param	string	sRole
 	 * @param	string	sStatus
 	 * @return	\Model\Users\User
 	 */
-	public function create($sEmail, $sPasswd, $sSalt, $sRole, $sStatus)
+	public function create($sEmail, $sPasswd, $sSalt, $sName, $sSurname, $sRole, $sStatus)
 	{
-		$aData = $this->prepareToCreate([$sEmail, $sPasswd, $sSalt, $sRole, $sStatus]);
+		$aData = $this->prepareToCreate([$sEmail, $sPasswd, $sSalt, $sName, $sSurname, $sRole, $sStatus]);
 
 		return $this->createNewElement($aData);
 	}
@@ -56,8 +58,10 @@ trait UserFactory
 				'u_email' => $aData[0],
 				'u_passwd' => $aData[1],
 				'u_salt' => $aData[2],
-				'u_role' => $aData[3],
-				'u_status' => $aData[4]
+				'u_name' => $aData[3],
+				'u_surname' => $aData[4],
+				'u_role' => $aData[5],
+				'u_status' => $aData[6]
 		]];
 	}
 
@@ -79,57 +83,7 @@ trait UserFactory
 		return new \Model\Users\User();
 	}
 
-	/**
-	 * Return select object for model
-	 *
-	 * @param	mixed	$mFields	fields definition
-	 * @param	array	$aOptions	other options
-	 * @return	\Zend_Db_Select
-	 */
-	protected function getSelect($mFields = '*', array $aOptions = [])
-	{
-		$oSelect = parent::getSelect($mFields, $aOptions);
 
-		if(in_array('details', $aOptions)) // component preload
-		{
-			$aThis = \Model\Users\User::info();
-			$aInfo = \Model\Users\DetailsU::info();
-			$oSelect->joinLeft(
-				$aInfo['table'] .' AS '. $aInfo['alias'],
-				$aInfo['alias'] .'.'. $aInfo['key'] .' = '. $aThis['alias'] .'.'. $aThis['key']
-			);
-		}
-
-
-
-		return $oSelect;
-	}
-
-
-
-	/**
-	 * Prepare data to build
-	 *
-	 * @param	array	$aRow		db row
-	 * @param	array	$aOptions	build options
-	 * @return	void
-	 */
-	protected function prepareToBuild(array &$aRow, array $aOptions = [])
-	{
-		if(in_array('details', $aOptions)) // component preload
-		{
-			if(isset($aRow[\Model\Users\DetailsU::info()['key']]))
-			{
-				$aRow['_details'] = (new \Model\Users\DetailsU())->init($aRow);
-			}
-			else
-			{
-				$aRow['_details'] = false;
-			}
-		}
-
-
-	}
 
 
 }

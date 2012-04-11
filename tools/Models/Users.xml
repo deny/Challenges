@@ -5,23 +5,14 @@
 		<field name="email" 	type="string(80)" 	access="get,set" />
 		<field name="passwd" 	type="string(40)" 	access="get,_set" />
 		<field name="salt" 		type="string(40)" 	access="_get,_set" />
-		<field name="details"	type="DetailsU" 		access="get,set" />
+		<field name="name" 		type="string(80)" 	access="get,set" />
+		<field name="surname" 	type="string(80)" 	access="get,set" />
 		<field name="role"		type="enum(user,mod,admin)" 		access="get,set" />
 		<field name="status"	type="enum(inactive,active,banned)" access="get,set" />
 	</User>
 	<Moderator extends="User">
-		<field name="details"	type="DetailsM" 	access="get,set" />
 	</Moderator>
 	<Admin extends="User">
 		<field name="login_attempts" 	type="string(255)"	access="get,set" />
 	</Admin>
-	<DetailsU componentof="User">
-		<field name="name" 		type="string(80)" 	access="get,set" 	default="gal"/>
-		<field name="surname" 	type="string(80)" 	access="get,set" 	default="anonim"/>
-		<field name="index_id" 	type="int" 			access="get,set" />
-	</DetailsU>
-	<DetailsM componentof="Moderator">
-		<field name="name" 		type="string(80)" 	access="get,set" 	default="gal"/>
-		<field name="surname" 	type="string(80)" 	access="get,set" 	default="anonim"/>
-	</DetailsM>
 </Users>

@@ -13,6 +13,6 @@ class IndexController extends Core_Controller_Action {
      */
     public function indexAction()
 	{
-		echo $this->oCurrentUser->getEmail();
+		echo 'INDEX';
     }
 }

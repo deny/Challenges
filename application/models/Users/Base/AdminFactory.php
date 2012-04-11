@@ -32,14 +32,16 @@ trait AdminFactory
 	 * @param	string	sEmail
 	 * @param	string	sPasswd
 	 * @param	string	sSalt
+	 * @param	string	sName
+	 * @param	string	sSurname
 	 * @param	string	sRole
 	 * @param	string	sStatus
 	 * @param	string	sLoginAttempts
 	 * @return	\Model\Users\Admin
 	 */
-	public function create($sEmail, $sPasswd, $sSalt, $sRole, $sStatus, $sLoginAttempts)
+	public function create($sEmail, $sPasswd, $sSalt, $sName, $sSurname, $sRole, $sStatus, $sLoginAttempts)
 	{
-		$aData = $this->prepareToCreate([$sEmail, $sPasswd, $sSalt, $sRole, $sStatus, $sLoginAttempts]);
+		$aData = $this->prepareToCreate([$sEmail, $sPasswd, $sSalt, $sName, $sSurname, $sRole, $sStatus, $sLoginAttempts]);
 
 		return $this->createNewElement($aData);
 	}
@@ -56,7 +58,7 @@ trait AdminFactory
 		$aParent = parent::prepareToCreate($aData);
 
 		$aParent['user_e_admin'] = [
-				'uea_login_attempts' => $aData[5]
+				'uea_login_attempts' => $aData[7]
 		];
 
 		return $aParent;

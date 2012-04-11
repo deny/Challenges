@@ -20,7 +20,7 @@ trait Task
 	private $iAuthorId = null;
 
 	/**
-	 * @var	\Model\Tasks\Moderator
+	 * @var	\Model\Users\Moderator
 	 */
 	private $oAuthor = null;
 
@@ -58,6 +58,7 @@ trait Task
 		$aComponents[] = self::info();
 		parent::init($aRow, $aComponents);
 
+		$this->iAuthorId = $aRow['t_author'];
 		$this->sName = $aRow['t_name'];
 		$this->sDescription = $aRow['t_description'];
 		$this->sInput = $aRow['t_input'];
@@ -79,7 +80,7 @@ trait Task
 // GETTERS
 
 	/**
-	 * @return	\Model\Tasks\Moderator
+	 * @return	\Model\Users\Moderator
 	 */
 	public function getAuthorId()
 	{
@@ -87,13 +88,13 @@ trait Task
 	}
 
 	/**
-	 * @return	\Model\Tasks\Moderator
+	 * @return	\Model\Users\Moderator
 	 */
 	public function getAuthor()
 	{
 		if(!isset($this->oAuthor))
 		{
-			$this->oAuthor = \Model\Tasks\ModeratorFactory::getInstance()->getOne($this->iAuthorId);
+			$this->oAuthor = \Model\Users\ModeratorFactory::getInstance()->getOne($this->iAuthorId);
 		}
 
 		return $this->oAuthor;

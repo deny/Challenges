@@ -1,0 +1,42 @@
+<?php
+	$bEdit = isset($this->oTask);
+?>
+
+<?php if(isset($this->oTask)):?>
+	<h1>Edycja zadania</h1>
+<?php else:?>
+	<h1>Tworzenie nowego zadania</h1>
+<?php endif;?>
+
+<form method="post" action="/tasks<?php echo $bEdit ? '/edit/id/'. $this->oTask->getId() : '/add' ?>">
+	<?php $sField = 'name';
+	echo $this->form_Field(
+		'nazwa zadania',
+		$sField,
+		$this->formText($sField, $this->form_Value($sField))
+	)?>
+
+	<?php $sField = 'description';
+	echo $this->form_Field(
+		'opis zadania',
+		$sField,
+		$this->formTextarea($sField, $this->form_Value($sField), array('cols' => 70, 'rows' => 5))
+	)?>
+
+	<?php $sField = 'input';
+	echo $this->form_Field(
+		'dane wejściowe',
+		$sField,
+		$this->formTextarea($sField, $this->form_Value($sField), array('cols' => 70, 'rows' => 5))
+	)?>
+
+	<?php $sField = 'output';
+	echo $this->form_Field(
+		'dane wyjściowe',
+		$sField,
+		$this->formTextarea($sField, $this->form_Value($sField), array('cols' => 70, 'rows' => 5))
+	)?>
+
+
+	<button type="submit"><?php echo $bEdit ? 'zapisz' : 'dodaj'?></button>
+</form>

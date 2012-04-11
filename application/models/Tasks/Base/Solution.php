@@ -37,7 +37,7 @@ trait Solution
 	private $iAuthorId = null;
 
 	/**
-	 * @var	\Model\Tasks\User
+	 * @var	\Model\Users\User
 	 */
 	private $oAuthor = null;
 
@@ -85,6 +85,8 @@ trait Solution
 		$aComponents[] = self::info();
 		parent::init($aRow, $aComponents);
 
+		$this->iTaskId = $aRow['s_task'];
+		$this->iAuthorId = $aRow['s_author'];
 		$this->sCode = $aRow['s_code'];
 		$this->sInfo = $aRow['s_info'];
 		$this->iRunTime = $aRow['s_run_time'];
@@ -134,7 +136,7 @@ trait Solution
 	}
 
 	/**
-	 * @return	\Model\Tasks\User
+	 * @return	\Model\Users\User
 	 */
 	public function getAuthorId()
 	{
@@ -142,13 +144,13 @@ trait Solution
 	}
 
 	/**
-	 * @return	\Model\Tasks\User
+	 * @return	\Model\Users\User
 	 */
 	public function getAuthor()
 	{
 		if(!isset($this->oAuthor))
 		{
-			$this->oAuthor = \Model\Tasks\UserFactory::getInstance()->getOne($this->iAuthorId);
+			$this->oAuthor = \Model\Users\UserFactory::getInstance()->getOne($this->iAuthorId);
 		}
 
 		return $this->oAuthor;

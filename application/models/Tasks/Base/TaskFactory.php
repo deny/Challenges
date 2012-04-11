@@ -96,8 +96,14 @@ trait TaskFactory
 			$aInfo = \Model\Users\Moderator::info();
 			$oSelect->join(
 				$aInfo['table'] .' AS '. $aInfo['alias'],
-				$aInfo['alias'] .'.'. $aInfo['key'] .' = '. $aThis['alias'] .'.d_user'
+				$aInfo['alias'] .'.'. $aInfo['key'] .' = '. $aThis['alias'] .'.t_author'
 			);
+			$oSelect->join(
+				\Model\Users\User::info()['table'] .' AS '. \Model\Users\User::info()['alias'],
+				\Model\Users\User::info()['alias'] .'.'.\Model\Users\User::info()['key'] .' = '.
+				\Model\Users\Moderator::info()['alias'] .'.'. \Model\Users\Moderator::info()['key']
+			);
+
 		}
 
 

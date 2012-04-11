@@ -16,4 +16,15 @@ class User extends \Sca\DataObject\Element
 	CONST STATUS_INACTIVE = 'inactive';
 	CONST STATUS_ACTIVE = 'active';
 	CONST STATUS_BANNED = 'banned';
+
+
+	/**
+	 * Zwraca imię i nazwisko usera
+	 *
+	 * @return	string
+	 */
+	public function getFullName()
+	{
+		return $this->getName() . ' '. $this->getSurname();
+	}
 }

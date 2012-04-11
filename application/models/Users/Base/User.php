@@ -38,9 +38,14 @@ trait User
 	private $sSalt = null;
 
 	/**
-	 * @var	\Model\Users\DetailsU
+	 * @var	string
 	 */
-	private $oDetails = null;
+	private $sName = null;
+
+	/**
+	 * @var	string
+	 */
+	private $sSurname = null;
 
 	/**
 	 * @var	string
@@ -69,16 +74,11 @@ trait User
 		$this->sEmail = $aRow['u_email'];
 		$this->sPasswd = $aRow['u_passwd'];
 		$this->sSalt = $aRow['u_salt'];
+		$this->sName = $aRow['u_name'];
+		$this->sSurname = $aRow['u_surname'];
 		$this->sRole = $aRow['u_role'];
 		$this->sStatus = $aRow['u_status'];
 
-
-		if(isset($aRow['_details']))
-		{
-			$this->oDetails = $aRow['_details'] ?
-									$aRow['_details'] :
-									(new \Model\Users\DetailsU())->initDefault($this);
-		}
 
 
 
@@ -114,23 +114,19 @@ trait User
 	}
 
 	/**
-	 * @return	\Model\Users\DetailsU
+	 * @return	string
 	 */
-	public function getDetails()
+	public function getName()
 	{
-		if(!isset($this->oDetails))
-		{
-			try
-			{
-				$this->oDetails = \Model\Users\DetailsUFactory::getInstance()->getOne($this->getId());
-			}
-			catch(\Sca\DataObject\Exception $oExc) // no data - create default object
-			{
-				$this->oDetails = (new \Model\Users\DetailsU())->initDefault($this);
-			}
-		}
+		return $this->sName;
+	}
 
-		return $this->oDetails;
+	/**
+	 * @return	string
+	 */
+	public function getSurname()
+	{
+		return $this->sSurname;
 	}
 
 	/**
@@ -182,6 +178,28 @@ trait User
 	{
 		$this->sSalt = $mValue;
 		$this->setDataValue(self::info()['table'], 'u_salt', $mValue);
+		return $this;
+	}
+
+	/**
+	 * @param	string	$mValue		new value
+	 * @return	void
+	 */
+	public function setName($mValue)
+	{
+		$this->sName = $mValue;
+		$this->setDataValue(self::info()['table'], 'u_name', $mValue);
+		return $this;
+	}
+
+	/**
+	 * @param	string	$mValue		new value
+	 * @return	void
+	 */
+	public function setSurname($mValue)
+	{
+		$this->sSurname = $mValue;
+		$this->setDataValue(self::info()['table'], 'u_surname', $mValue);
 		return $this;
 	}
 
