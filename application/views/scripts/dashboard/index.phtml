@@ -1,0 +1,15 @@
+<header>
+	<h2>Podsumowanie</h2>
+	<a href="/dashboard">strona główna</a>
+</header>
+<div>
+	<h2>Zwykły user</h2>
+	<a href="/tasks/list">Lista zadań</a><br />
+	<a href="/solutions/my-list">Twoja lista rozwiazań</a><br />
+
+<?php if($this->oCurrentUser->getRole() == \Model\Users\User::ROLE_MOD): ?>
+	<h2>Moderator</h2>
+	<a href="/tasks/my-list">Twoja lista zadań</a><br />
+<?php endif; ?>
+
+</div>

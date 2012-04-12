@@ -27,8 +27,11 @@ class Core_Controller_Action extends \Zend_Controller_Action
 	{
 		parent::init();
 
-		$this->oCurrentUser = \Model\Users\ModeratorFactory::getInstance()->getOne(2);
-		$this->view->assign('oCurrentUser', $this->oCurrentUser);
+		if(Core_Auth::getInstance()->hasIdentity())
+		{
+			$this->oCurrentUser = Core_Auth::getInstance()->getUser();
+			$this->view->assign('oCurrentUser', $this->oCurrentUser);
+		}
 	}
 
 	/**

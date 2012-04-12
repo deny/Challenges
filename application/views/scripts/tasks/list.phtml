@@ -1,4 +1,8 @@
-<h1>Lista wszystkich zadań</h1>
+<header>
+	<h2>Lista wszystkich zadań</h2>
+	<a href="/dashboard">strona główna</a> >
+	<a href="/tasks/list">zadania</a>
+</header>
 
 <?php if(isset($this->oCurrentUser) && $this->oCurrentUser->getRole() == \Model\Users\User::ROLE_MOD): ?>
 	<a href="/tasks/my-list">moje zadania</a>

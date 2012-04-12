@@ -22,7 +22,7 @@ CREATE TABLE `solution` (
 
 
 ALTER TABLE `task`
-	ADD CONSTRAINT `task_ibfk_t_author` FOREIGN KEY (`t_author`) REFERENCES `user_e_moderator` (`u_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+	ADD CONSTRAINT `task_ibfk_t_author` FOREIGN KEY (`t_author`) REFERENCES `user` (`u_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE `solution`
 	ADD CONSTRAINT `solution_ibfk_s_task` FOREIGN KEY (`s_task`) REFERENCES `task` (`t_id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	ADD CONSTRAINT `solution_ibfk_s_author` FOREIGN KEY (`s_author`) REFERENCES `user` (`u_id`) ON DELETE CASCADE ON UPDATE CASCADE;

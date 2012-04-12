@@ -33,7 +33,7 @@ class Core_Validate_EmailUnique extends Zend_Validate_Abstract
 	 * @param	User	$oUser	obiekt edytowanego usera (pomijamy jego emaila)
 	 * @return	Core_Validate_EmailUnique
 	 */
-	public function __construct($oUser)
+	public function __construct($oUser = null)
 	{
 		$this->oUser = $oUser;
 	}
@@ -57,8 +57,8 @@ class Core_Validate_EmailUnique extends Zend_Validate_Abstract
 
 		$oDb = Zend_Registry::get('db');
 		$aDbRes = $oDb->select()
-					->from('users', 'user_id')
-					->where('email = ?', $sValue)
+					->from('user', 'u_id')
+					->where('u_email = ?', $sValue)
 					->limit(1)->query()->fetchAll();
 
 		if(empty($aDbRes))

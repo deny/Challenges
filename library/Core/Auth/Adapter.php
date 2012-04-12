@@ -1,5 +1,8 @@
 <?php
 
+use \Model\Users\User;
+use \Model\Users\UserFactory;
+
 /**
  * Adapter logowowania
  */
@@ -40,14 +43,15 @@ class Core_Auth_Adapter implements Zend_Auth_Adapter_Interface
 		// wyjęcie usera
 		try
 		{
-			$oUser = UserFactory::getNew()->getByEmail($this->sEmail);
+			$oUser = UserFactory::getInstance()->getByEmail($this->sEmail);
+
 		}
 		catch(Exception $e) // brak usera
-		{
+		{die($e->getMessage());
 			return new Zend_Auth_Result(Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND, $this->sEmail);
 		}
 
-	
+
 		// sprawdzenie hasła i aktywności konta
 		if($oUser->isPasswdMatch($this->sPasswd) && $oUser->getStatus() == User::STATUS_ACTIVE)
 		{

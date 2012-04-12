@@ -3,11 +3,17 @@
 	$aEmpty = ['' => '-- wybierz z listy --']
 ?>
 
-<?php if(isset($this->oTask)):?>
-	<h1>Edycja rozwiązania</h1>
+
+
+<header>
+	<?php if(isset($this->oSolution)):?>
+	<h2>Edycja rozwiązania</h2>
 <?php else:?>
-	<h1>Dodawanie nowego rozwiązania</h1>
+	<h2>Dodawanie nowego rozwiązania</h2>
 <?php endif;?>
+	<a href="/dashboard">strona główna</a> >
+	<a href="/solutions/my-list">moje rozwiązania</a>
+</header>
 
 <h2>Zadanie: <?php echo $this->oTask->getName() ?></h2>
 

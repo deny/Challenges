@@ -59,7 +59,7 @@ class TasksController extends Core_Controller_Action
 	public function showAction()
 	{
 		$this->mustBe([User::ROLE_USER, User::ROLE_MOD]);
-		$this->view->assign('oTask', $this->getTask());
+		$this->view->assign('oTask', $this->getTask(false));
 	}
 
 // MODERATOR-SECTION
@@ -191,14 +191,14 @@ class TasksController extends Core_Controller_Action
 	 *
 	 * @return	\Model\Tasks\Task
 	 */
-	protected function getTask()
+	protected function getTask($bCheckAuthor = true)
 	{
 		try
 		{
 			$iId = $this->_request->getParam('id', 0);
 			$oTask = $this->oTaskF->getOne($iId);
 
-			if($this->oCurrentUser->getId() != $oTask->getAuthorId())
+			if($bCheckAuthor && $this->oCurrentUser->getId() != $oTask->getAuthorId())
 			{
 				$this->moveTo404();
 				exit();

@@ -93,15 +93,10 @@ trait TaskFactory
 		if(in_array('author', $aOptions)) // zawiera pole
 		{
 			$aThis = \Model\Tasks\Task::info();
-			$aInfo = \Model\Users\Moderator::info();
+			$aInfo = \Model\Users\User::info();
 			$oSelect->join(
 				$aInfo['table'] .' AS '. $aInfo['alias'],
 				$aInfo['alias'] .'.'. $aInfo['key'] .' = '. $aThis['alias'] .'.t_author'
-			);
-			$oSelect->join(
-				\Model\Users\User::info()['table'] .' AS '. \Model\Users\User::info()['alias'],
-				\Model\Users\User::info()['alias'] .'.'.\Model\Users\User::info()['key'] .' = '.
-				\Model\Users\Moderator::info()['alias'] .'.'. \Model\Users\Moderator::info()['key']
 			);
 
 		}
@@ -124,7 +119,7 @@ trait TaskFactory
 	{
 		if(in_array('author', $aOptions)) // preload standard field
 		{
-			$aRow['_author'] = (new \Model\Users\Moderator())->init($aRow);
+			$aRow['_author'] = (new \Model\Users\User())->init($aRow);
 		}
 
 

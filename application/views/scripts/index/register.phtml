@@ -1,0 +1,44 @@
+
+<header>
+	<h2>Rejestracja</h2>
+</header>
+<div>
+	<form method="post" action="/index/register" autocomplete="off">
+		<?php $sField = 'name';
+		echo $this->form_Field(
+			'imię',
+			$sField,
+			$this->formText($sField, $this->form_Value($sField))
+		)?>
+
+		<?php $sField = 'surname';
+		echo $this->form_Field(
+			'nazwisko',
+			$sField,
+			$this->formText($sField, $this->form_Value($sField))
+		)?>
+
+		<?php $sField = 'email';
+		echo $this->form_Field(
+			'email',
+			$sField,
+			$this->formText($sField, $this->form_Value($sField))
+		)?>
+
+		<?php $sField = 'passwd';
+		echo $this->form_Field(
+			$this->bEdit ? 'nowe hasło' : 'hasło',
+			$sField,
+			$this->formPassword($sField)
+		)?>
+
+		<?php $sField = 'passwd2';
+		echo $this->form_Field(
+			'powtórz hasło',
+			$sField,
+			$this->formPassword($sField)
+		)?>
+
+		<button type="submit">zarejestruj się</button>
+	</form>
+</div>

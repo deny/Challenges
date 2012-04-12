@@ -27,4 +27,12 @@ class User extends \Sca\DataObject\Element
 	{
 		return $this->getName() . ' '. $this->getSurname();
 	}
+
+	/**
+	 * Sprawdza czy podane hasło jest hasłem usera
+	 */
+	public function isPasswdMatch($sPasswd)
+	{
+		return $this->getPasswd() == UserFactory::hashPasswd($sPasswd, $this->getSalt());
+	}
 }

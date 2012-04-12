@@ -1,19 +1,34 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
-<html xmlns="http://www.w3.org/1999/xhtml"> 
-<head> 
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
-  <title>Index</title> 
-</head> 
-<body> 
-  <h1>Index</h1> 
-  <?php if($this->values): ?> 
-    <h3>You just submitted the following values:</h3> 
-    <ul> 
-      <?php foreach ($this->values as $value) :?> 
-        <li> <?php echo $this->escape($value); ?></li> 
-      <?php endforeach; ?> 
-    </ul> 
-  <?php endif; ?> 
-  <?php echo $this->form; ?> 
-</body> 
-</html> 
+<header>
+	<h2>Logowanie</h2>
+</header>
+<div>
+	<form method="post" action="/">
+
+		<?php $sField = 'email';
+		echo $this->form_Field(
+			'email',
+			$sField,
+			$this->formText($sField, $this->form_Value($sField))
+		)?>
+
+		<?php $sField = 'passwd';
+		echo $this->form_Field(
+			'hasło',
+			$sField,
+			$this->formPassword($sField, $this->form_Value($sField))
+		)?>
+
+		<?php $sField = 'remember';
+		echo $this->form_Field(
+			'Zapamiętaj mnie',
+			$sField,
+			$this->formCheckbox($sField, $this->form_Value($sField)),
+			array('class' => 'remember'),
+			array('flip' => true)
+		)?>
+
+		<button type="submit">zaloguj</button>
+	</form>
+
+	<strong>Nie masz konta? </strong><a href="/register">zarejestruj się</a>
+</div>

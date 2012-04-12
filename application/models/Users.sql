@@ -9,10 +9,6 @@ CREATE TABLE `user` (
 	`u_status` ENUM("inactive","active","banned"),
 	PRIMARY KEY(`u_id`)
 ) ENGINE=InnoDB;
-CREATE TABLE `user_e_moderator` (
-	`u_id` INT(10) UNSIGNED,
-	PRIMARY KEY(`u_id`)
-) ENGINE=InnoDB;
 CREATE TABLE `user_e_admin` (
 	`u_id` INT(10) UNSIGNED,
 	`uea_login_attempts` VARCHAR(255),
@@ -20,7 +16,5 @@ CREATE TABLE `user_e_admin` (
 ) ENGINE=InnoDB;
 
 
-ALTER TABLE `user_e_moderator`
-	ADD CONSTRAINT `user_e_moderator_ibfk_u_id` FOREIGN KEY (`u_id`) REFERENCES `user` (`u_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE `user_e_admin`
 	ADD CONSTRAINT `user_e_admin_ibfk_u_id` FOREIGN KEY (`u_id`) REFERENCES `user` (`u_id`) ON DELETE CASCADE ON UPDATE CASCADE;

@@ -1,5 +1,8 @@
 <?php
 
+use\Model\Users\User;
+use\Model\Users\UserFactory;
+
 /**
  * Klasa autoryzacji
  */
@@ -15,7 +18,7 @@ class Core_Auth extends Zend_Auth
 	/**
 	 * Obiekt zalogowanego usera
 	 *
-	 * @var	User
+	 * @var	\Model\Users\User
 	 */
 	protected $oUser = null;
 
@@ -32,12 +35,12 @@ class Core_Auth extends Zend_Auth
 				if(!isset($this->oUser))
 				{
 					$iId = (int) $this->getIdentity();
-					$this->oUser = UserFactory::getNew()->getOne($iId);
+					$this->oUser = UserFactory::getInstance()->getOne($iId);
 				}
 
 				return $this->oUser->getStatus() == User::STATUS_ACTIVE;
 			}
-			catch(Core_DataObject_Exception $oExc) // brak usera - wylogowanie
+			catch(\Sca\DataObject\Exception $oExc) // brak usera - wylogowanie
 			{
 				$this->clearIdentity();
 				return false;

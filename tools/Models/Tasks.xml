@@ -2,7 +2,7 @@
 
 <Tasks use="Users">
 	<Task>
-		<field name="author" 		type="Users:Moderator" 	access="get" />
+		<field name="author" 		type="Users:User" 		access="get" />
 		<field name="name"			type="string(255)"		access="get,set" />
 		<field name="description"	type="string"			access="get,set" />
 		<field name="input"			type="string"			access="get,set" />
