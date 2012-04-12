@@ -32,4 +32,30 @@ class SolutionFactory extends \Sca\DataObject\Factory
 			\Model\Tasks\Solution::STATUS_NEW
 		);
 	}
+
+	/**
+	 * Zwraca zadanie do oceny
+	 *
+	 * @return	false|\Model\Tasks\Solution
+	 */
+	public function getForBuild($iId)
+	{
+		$this->oDb->query(
+			'UPDATE solution'.
+			' SET s_worker_id = '. $iId .', s_status = "'. Solution::STATUS_TESTING .'"'.
+			' WHERE s_status = "'. Solution::STATUS_NEW .'"'.
+			' LIMIT 1'
+		);
+
+		$aDbRes = $this->getSelect('*', ['task'])
+						->where('s_worker_id = ?', $iId)
+						->limit(1)->query()->fetchAll();
+
+		if(empty($aDbRes))
+		{
+			return false;
+		}
+
+		return $this->buildObject($aDbRes[0]);
+	}
 }

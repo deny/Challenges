@@ -13,6 +13,7 @@
 			<td>Nazwa zadania</td>
 			<td>Czas wykonania</td>
 			<td>Status</td>
+			<td>Opis</td>
 		</tr>
 	</thead>
 	<tbody>
@@ -23,7 +24,7 @@
 					<?php echo $oSolution->getTask()->getName() ?>
 				</a>
 			</td>
-			<td><?php echo $oSolution->getRunTime() ?></td>
+			<td><?php echo $oSolution->getRunTime() ?>ms</td>
 			<td>
 				<?php switch($oSolution->getStatus()) {
 						case \Model\Tasks\Solution::STATUS_NEW: echo 'oczekuje na ocenę'; break;
@@ -32,6 +33,7 @@
 						case \Model\Tasks\Solution::STATUS_ERROR: echo 'błąd'; break;
 				}?>
 			</td>
+			<td><?php echo $oSolution->getInfo() ?></td>
 		</tr>
 <?php endforeach;?>
 	</tbody>
