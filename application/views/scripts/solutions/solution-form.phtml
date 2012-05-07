@@ -1,28 +1,50 @@
 <?php
 	$bEdit = isset($this->oSolution);
+
+	$this->layout_Class('standalone-form solution-show');
+
+	if($bEdit)
+	{
+		$this->layout_Breadcrumbs(array(
+			'moje rozwiązania'	=> '/solutions/my-list',
+			'edycja zadania'	=> null
+		));
+	}
+	else
+	{
+		$this->layout_Breadcrumbs(array(
+			'moje rozwiązania'	=> '/solutions/my-list',
+			'nowe rozwiązanie'	=> null
+		));
+	}
+
 	$aEmpty = ['' => '-- wybierz z listy --']
 ?>
 
 
 
-<header>
-	<?php if(isset($this->oSolution)):?>
-	<h2>Edycja rozwiązania</h2>
+<?php if(isset($this->oSolution)):?>
+	<h2 class="webfont">Edycja rozwiązania</h2>
 <?php else:?>
-	<h2>Dodawanie nowego rozwiązania</h2>
+	<h2 class="webfont">Dodawanie nowego rozwiązania</h2>
 <?php endif;?>
-	<a href="/dashboard">strona główna</a> >
-	<a href="/solutions/my-list">moje rozwiązania</a>
-</header>
 
 <h2>Zadanie: <?php echo $this->oTask->getName() ?></h2>
 
-<p> <?php echo $this->oTask->getDescription() ?></p>
+<div class="desc">
+	<label>Opis zadania</label>
+	<p>
+		<?php echo str_replace("\n", '<br />', $this->oTask->getDescription()) ?>
+	</p>
+</div>
 
 <?php if($bEdit && $this->oSolution->getInfo() !== null): ?>
 	<p class="error"><?php echo $this->oSolution->getInfo() ?></p>
 <?php endif; ?>
 
+<div class="desc">
+	<label>Twoje rozwiązanie</label>
+</div>
 <form method="post" action="/solutions<?php echo $bEdit ? '/edit/id/'. $this->oSolution->getId() : '/add/id/'. $this->oTask->getId() ?>">
 	<?php $sField = 'language';
 	echo $this->form_Field(

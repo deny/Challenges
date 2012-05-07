@@ -116,18 +116,36 @@ header .login span:after {
     margin: 10px;
     background: #eee;
     width: 400px;
-
 }
 .page-wrapper .content form label {
-    width: 150px;
     display: inline-block;
+    float: left;
+    margin: 5px 10px 0 0;
+    text-align: right;
+    width: 150px;
+}
+.page-wrapper .content form .field {
     margin-top: 10px;
+    vertical-align: top;
+}
+.page-wrapper .content form .flip input {
+    float: left;
+    margin: 3px 0 0 160px;
+}
+.page-wrapper .content form .flip label {
+    float: left;
+}
+.page-wrapper .content form button {
+    margin-top: 20px;
+    margin-left: 160px;
 }
 .page-wrapper .content form input {
     border: 1px solid #444;
     padding: 4px;
 }
-.page-wrapper .content form .error input {
+.page-wrapper .content form .error input,
+.page-wrapper .content form .error select,
+.page-wrapper .content form .error textarea {
     border: 1px solid #f00;
 }
 .page-wrapper .content form .error li {
@@ -266,6 +284,20 @@ footer p, footer a {
     background-color: #bbb;
 }
 /* @end =tasks-my-list */
+/* @begin =tasks-form */
+.standalone-form .content form {
+    width: auto;
+}
+.standalone-form .content form .field label {
+    width: 300px;
+}
+.standalone-form .content form .error li {
+    margin-left: 310px;
+}
+.standalone-form .content form button {
+    margin-left: 310px;
+}
+/* @end =tasks-form */
 /* @begin =tasks-show */
 .task-show .head {
     margin-bottom: 20px;
@@ -303,3 +335,19 @@ footer p, footer a {
 }
 /* @end =tasks-show */
 /* @end =tasks */
+/* @begin =solution-show */
+.solution-show .desc {
+    margin-top: 35px;
+}
+.solution-show .desc label {
+    font-weight: bold;
+}
+.solution-show .desc p {
+    background-color: #efefef;
+    padding: 5px;
+    margin-top: 10px;
+}
+.solution-show .content form textarea {
+    height: 400px;
+}
+/* @end =solution-show */

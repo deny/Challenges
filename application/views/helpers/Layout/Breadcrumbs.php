@@ -30,11 +30,11 @@ class View_Helper_Layout_Breadcrumbs extends Zend_View_Helper_Abstract
 
 		if(empty($this->aBreadcrumbs))
 		{
-			$sResult .= '<li class="selected"><a>Strona główna</a></li>';
+			$sResult .= '<li class="selected"><a>strona główna</a></li>';
 		}
 		else
 		{
-			$sResult .= '<li><a href="/">Strona główna</a></li>';
+			$sResult .= '<li><a href="/dashboard">Strona główna</a></li>';
 		}
 
 		foreach($this->aBreadcrumbs as $sName => $sLink)

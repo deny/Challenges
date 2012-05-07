@@ -21,12 +21,13 @@
 			'Zapamiętaj mnie',
 			$sField,
 			$this->formCheckbox($sField, $this->form_Value($sField)),
-			array('class' => 'remember')
+			array('class' => 'remember'),
+			array('flip' => true)
 		)?>
 
 		<button type="submit">zaloguj</button>
 		<br /><br />
-		<strong>Nie masz konta? </strong><a href="/register">zarejestruj się</a>
+		<strong>Nie masz konta? </strong><a href="/index/register">zarejestruj się</a>
 	</form>
 
 

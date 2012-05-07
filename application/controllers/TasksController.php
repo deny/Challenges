@@ -59,10 +59,31 @@ class TasksController extends Core_Controller_Action
 	public function showAction()
 	{
 		$this->mustBe([User::ROLE_USER, User::ROLE_MOD]);
-		$this->view->assign('oTask', $this->getTask(false));
+
+		$oTask =  $this->getTask(false);
+
+		if(isset($this->oCurrentUser) &&
+		   $this->oCurrentUser->getRole() == \Model\Users\User::ROLE_MOD &&
+		   $oTask->getAuthorId() == $this->oCurrentUser->getId()
+		)
+		{
+			$this->_redirect('/tasks/my-show/id/'. $oTask->getId());
+			exit();
+		}
+
+		$this->view->assign('oTask', $oTask);
 	}
 
 // MODERATOR-SECTION
+
+	/**
+	 * Pokazuje szczegóły zadania
+	 */
+	public function myShowAction()
+	{
+		$this->mustBe([User::ROLE_USER, User::ROLE_MOD]);
+		$this->view->assign('oTask', $this->getTask(true));
+	}
 
 	/**
 	 * Moderator tasks list

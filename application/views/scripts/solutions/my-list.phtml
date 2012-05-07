@@ -1,11 +1,11 @@
-<header>
-	<h2>Lista moich rozwiąząń</h2>
-	<a href="/dashboard">strona główna</a> >
-	<a href="/solutions/my-list">moje rozwiązania</a>
-</header>
+<?php
+	$this->layout_Class('list-wrapper task-list');
+	$this->layout_Breadcrumbs(array(
+		'moje rozwiązania'	=> null
+	));
+?>
 
-<a href="/tasks/list">wróć do listy wszystkich zadań</a>
-<br /><br />
+<h2 class="webfont">Lista moich rozwiazan</h2>
 
 <table>
 	<thead>
@@ -24,7 +24,7 @@
 					<?php echo $oSolution->getTask()->getName() ?>
 				</a>
 			</td>
-			<td><?php echo $oSolution->getRunTime() ?>ms</td>
+			<td><?php echo $oSolution->getRunTime() === null ? '---' : $oSolution->getRunTime() . 'ms' ?></td>
 			<td>
 				<?php switch($oSolution->getStatus()) {
 						case \Model\Tasks\Solution::STATUS_NEW: echo 'oczekuje na ocenę'; break;

@@ -1,11 +1,31 @@
 <?php
 	$bEdit = isset($this->oTask);
+
+	$this->layout_Class('standalone-form');
+
+	if($bEdit)
+	{
+		$this->layout_Breadcrumbs(array(
+			'moje zadania'		=> '/tasks/my-list',
+			'szczegóły zadania'	=> '/tasks/my-show/id/'. $this->oTask->getId(),
+			'edycja zadania'	=> null
+		));
+	}
+	else
+	{
+		$this->layout_Breadcrumbs(array(
+			'moje zadania'	=> '/tasks/my-list',
+			'nowe zadanie'	=> null
+		));
+	}
+
+
 ?>
 
 <?php if(isset($this->oTask)):?>
-	<h1>Edycja zadania</h1>
+	<h2 class="webfont">Edycja zadania</h2>
 <?php else:?>
-	<h1>Tworzenie nowego zadania</h1>
+	<h2 class="webfont">Tworzenie nowego zadania</h2>
 <?php endif;?>
 
 <form method="post" action="/tasks<?php echo $bEdit ? '/edit/id/'. $this->oTask->getId() : '/add' ?>">

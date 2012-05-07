@@ -21,7 +21,10 @@ class View_Helper_Layout_Menu extends Zend_View_Helper_Abstract
 	 */
 	protected static $aAdresses = array(
 		'tasks/*'		=> 'tasks',
+		'tasks/add'		=> 'tasks-my',
+		'tasks/edit'	=> 'tasks-my',
 		'tasks/my-list'	=> 'tasks-my',
+		'tasks/my-show'	=> 'tasks-my',
 		'solutions/*'	=> 'solutions-my'
 	);
 
@@ -48,11 +51,19 @@ class View_Helper_Layout_Menu extends Zend_View_Helper_Abstract
 			$sActive = self::$aAdresses[$sController . '/*'];
 		}
 
+	// dostosowanie menu
+		$aMenu = self::$aMenu;
+
+		$oAuth = Core_Auth::getInstance();
+		if($oAuth->hasIdentity() && $oAuth->getUser()->getRole() != \Model\Users\User::ROLE_MOD)
+		{
+			unset($aMenu['tasks-my']);
+		}
 
 	// utworzenie menu
 		$sResult = '<nav class="main-menu"><ul>';
 
-		foreach(self::$aMenu as $sKey => $aParam)
+		foreach($aMenu as $sKey => $aParam)
 		{
 			$sSelected = '';
 

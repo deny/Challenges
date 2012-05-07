@@ -26,7 +26,7 @@ class View_Helper_Form_Field extends Zend_View_Helper_Abstract
 
 			// opis i pole
 			$sLabel = '<label for="' . $sName . '">' . $sLabel . '</label>';
-			$sField = '<span>'. $sField .'</span>';
+			$sField = '<div>'. $sField .'</div>';
 
 			// dodanie do wyniku (odwrotna kolejność label<->pole)
 			$sResult .= $bFlip ? $sField . $sLabel : $sLabel . $sField;
