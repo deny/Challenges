@@ -52,7 +52,7 @@ class View_Helper_Form_Field extends Zend_View_Helper_Abstract
 	 */
 	protected function getAttribs(array $aAttribs, $bError, $bFlip)
 	{
-		$sClass = 'form-field' . ($bFlip ? ' flip' : '');
+		$sClass = 'field' . ($bFlip ? ' flip' : '');
 
 		// dodanie doadtkowej klasy do pola
 		if(isset($aAttribs['class']))

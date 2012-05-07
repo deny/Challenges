@@ -1,20 +1,18 @@
-<header>
-	<h2>Lista wszystkich zadań</h2>
-	<a href="/dashboard">strona główna</a> >
-	<a href="/tasks/list">zadania</a>
-</header>
+<?php
+	$this->layout_Class('list-wrapper task-list');
+	$this->layout_Breadcrumbs(array(
+		'zadania'	=> null
+	));
+?>
 
-<?php if(isset($this->oCurrentUser) && $this->oCurrentUser->getRole() == \Model\Users\User::ROLE_MOD): ?>
-	<a href="/tasks/my-list">moje zadania</a>
-	<br /><br />
-<?php endif; ?>
+<h2 class="webfont">Lista wszystkich zadan</h2>
 
 <table>
 	<thead>
 		<tr>
-			<td>Nazwa zadania</td>
-			<td>Opis zadania</td>
-			<td>Autor</td>
+			<td class="name">Nazwa zadania</td>
+			<td class="desc">Opis zadania</td>
+			<td class="author">Autor</td>
 		</tr>
 	</thead>
 	<tbody>
@@ -35,5 +33,5 @@
 <?php echo $this->paginator($this->oPaginator, [
 	'pname'		=> 'page',
 	'pcount'	=> 6,
-	'actionUrl'	=> '/tasks/my-list'
+	'actionUrl'	=> '/tasks/list'
 ]);?>

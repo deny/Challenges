@@ -47,7 +47,7 @@ class Core_Auth_Adapter implements Zend_Auth_Adapter_Interface
 
 		}
 		catch(Exception $e) // brak usera
-		{die($e->getMessage());
+		{
 			return new Zend_Auth_Result(Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND, $this->sEmail);
 		}
 

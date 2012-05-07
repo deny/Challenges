@@ -2,6 +2,16 @@
 
 class ErrorController extends Zend_Controller_Action
 {
+	public function init()
+	{
+		parent::init();
+
+		if(!Core_Auth::getInstance()->hasIdentity())
+		{
+			$this->_helper->layout()->setLayout('login');
+		}
+	}
+
     public function errorAction()
     {
         $errors = $this->_getParam('error_handler');
@@ -19,18 +29,21 @@ class ErrorController extends Zend_Controller_Action
                 $this->getResponse()->setHttpResponseCode(404);
                 $priority = Zend_Log::NOTICE;
                 $this->view->message = 'Page not found';
+				$this->view->code = 404;
                 break;
             default:
             	if($errors->exception->getCode() == 403)
             	{
 	                $this->getResponse()->setHttpResponseCode(403);
 	                $this->view->message = 'Access deny';
+					$this->view->code = 403;
             	}
             	else
             	{
 	                // application error
 	                $this->getResponse()->setHttpResponseCode(500);
 	                $this->view->message = 'Application error';
+					$this->view->code = 500;
             	}
                 break;
         }
@@ -41,6 +54,7 @@ class ErrorController extends Zend_Controller_Action
         }
 
         $this->view->request   = $errors->request;
+
     }
 
     public function getLog()

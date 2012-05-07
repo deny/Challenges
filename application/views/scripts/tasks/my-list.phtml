@@ -1,20 +1,21 @@
-<header>
-	<h2>Lista moich zadań</h2>
-	<a href="/dashboard">strona główna</a> >
-	<a href="/tasks/list">zadania</a> >
-	<a href="/tasks/my-list">moje zadania</a>
-</header>
+<?php
+	$this->layout_Class('list-wrapper task-list tasks-my');
+	$this->layout_Breadcrumbs(array(
+		'moje zadania'	=> null
+	));
+?>
+<h2 class="webfont">Lista moich zadan</h2>
 
-<a href="/tasks/list">wróć do listy wszystkich zadań</a> |
-<a href="/tasks/add">dodaj nowe zadanie</a>
-<br /><br />
+<div class="head-actions">
+	<a href="/tasks/add">dodaj nowe zadanie</a>
+</div>
 
 <table>
 	<thead>
 		<tr>
-			<td>Nazwa zadania</td>
-			<td>Opis zadania</td>
-			<td>Akcje</td>
+			<td class="name">Nazwa zadania</td>
+			<td class="desc">Opis zadania</td>
+			<td class="actions">Akcje</td>
 		</tr>
 	</thead>
 	<tbody>
@@ -28,7 +29,7 @@
 			<td><?php echo substr($oTask->getDescription(), 0, 120) ?></td>
 			<td>
 				<a href="/tasks/edit/id/<?php echo $oTask->getId() ?>">edytuj</a> |
-				<a href="/tasks/del/id/<?php echo $oTask->getId() ?>">usuń</a>
+				<a href="#/tasks/del/id/<?php echo $oTask->getId() ?>" class="confirm" data-ask="Czy na pewno chcesz usunąć to zadanie?">usuń</a>
 			</td>
 		</tr>
 <?php endforeach;?>

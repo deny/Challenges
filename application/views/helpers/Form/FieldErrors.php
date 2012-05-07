@@ -16,9 +16,9 @@ class View_Helper_Form_FieldErrors extends Zend_View_Helper_Abstract
 		$sResult = '';
 		if(!empty($this->view->aErrors[$sField]))
 		{
-			$sResult .= '<div class="error-inline">'.
-							$this->view->formErrors($this->view->aErrors[$sField]) .
-						'</div>';
+			$sResult .= //'<div class="error-inline">'.
+							$this->view->formErrors($this->view->aErrors[$sField]);
+						//'</div>';
 		}
 
 		return $sResult;

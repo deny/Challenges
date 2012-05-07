@@ -1,0 +1,28 @@
+<?php
+	$this->layout_Class('task-preview');
+	$this->layout_Breadcrumbs(array(
+		'zadania'			=> '/tasks/list',
+		'szczegóły zadania'	=> null
+	));
+?>
+<h2 class="webfont">Szczegoly zadania</h2>
+
+<h3><?php echo $this->oTask->getName()?></h3>
+
+<?php if(isset($this->oCurrentUser) && $this->oCurrentUser->getRole() == \Model\Users\User::ROLE_MOD): ?>
+	<a href="/tasks/my-list">moja lista zadań</a> |
+	<a href="/tasks/edit/id/<?php echo $this->oTask->getId()?>">edytuj zadanie</a> |
+	<a href="/tasks/del/id/<?php echo $this->oTask->getId()?>">usuń zadanie</a>
+	<br /><br />
+<?php endif; ?>
+
+<?php if(isset($this->oCurrentUser)): ?>
+	<a href="/solutions/add/id/<?php echo $this->oTask->getId()?>">zgłoś rozwiązanie</a>
+	<br /><br />
+<?php endif; ?>
+
+
+<p class="desc">
+	<label>Opis:</label>
+	<?php echo str_replace("\n", '<br />', $this->oTask->getDescription()) ?>
+</p>

@@ -1,6 +1,4 @@
-<header>
-	<h2>Logowanie</h2>
-</header>
+<h2 class="webfont">Logowanie</h2>
 <div>
 	<form method="post" action="/">
 
@@ -23,12 +21,13 @@
 			'Zapamiętaj mnie',
 			$sField,
 			$this->formCheckbox($sField, $this->form_Value($sField)),
-			array('class' => 'remember'),
-			array('flip' => true)
+			array('class' => 'remember')
 		)?>
 
 		<button type="submit">zaloguj</button>
+		<br /><br />
+		<strong>Nie masz konta? </strong><a href="/register">zarejestruj się</a>
 	</form>
 
-	<strong>Nie masz konta? </strong><a href="/register">zarejestruj się</a>
+
 </div>

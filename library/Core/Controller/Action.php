@@ -85,9 +85,7 @@ class Core_Controller_Action extends \Zend_Controller_Action
 
 		if(!in_array($this->oCurrentUser->getRole(), $mType))
 		{
-			$this->addMessage('Nie masz dostępu do wybranej zwartości');
-			$this->_redirect('/');
-			exit();
+			throw new Zend_Controller_Action_Exception('Page not found', 403);
 		}
 	}
 
