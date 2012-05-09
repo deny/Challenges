@@ -39,7 +39,10 @@
 </div>
 
 <?php if($bEdit && $this->oSolution->getInfo() !== null): ?>
-	<p class="error"><?php echo $this->oSolution->getInfo() ?></p>
+	<div class="desc">
+		<label>Opis błędu</label>
+		<p class="error"><?php echo $this->oSolution->getInfo() ?></p>
+	</div>
 <?php endif; ?>
 
 <div class="desc">
@@ -50,9 +53,7 @@
 	echo $this->form_Field(
 		'język',
 		$sField,
-		$this->formSelect($sField, $this->form_Value($sField), null, $aEmpty + [
-			\Model\Tasks\Solution::LANGUAGE_PHP	=> 'PHP 5.4'
-		])
+		$this->formSelect($sField, $this->form_Value($sField), null, $aEmpty + \Model\Tasks\SolutionFactory::getLanguages())
 	)?>
 
 	<?php $sField = 'code';

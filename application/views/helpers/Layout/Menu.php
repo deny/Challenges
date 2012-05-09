@@ -20,12 +20,14 @@ class View_Helper_Layout_Menu extends Zend_View_Helper_Abstract
 	 * Adresy i powiązane z nimi menu
 	 */
 	protected static $aAdresses = array(
-		'tasks/*'		=> 'tasks',
-		'tasks/add'		=> 'tasks-my',
-		'tasks/edit'	=> 'tasks-my',
-		'tasks/my-list'	=> 'tasks-my',
-		'tasks/my-show'	=> 'tasks-my',
-		'solutions/*'	=> 'solutions-my'
+		'tasks/*'			=> 'tasks',
+		'tasks/add'			=> 'tasks-my',
+		'tasks/edit'		=> 'tasks-my',
+		'tasks/my-list'		=> 'tasks-my',
+		'tasks/my-show'		=> 'tasks-my',
+		'solutions/list'	=> 'tasks-my',
+		'solutions/show'	=> 'tasks-my',
+		'solutions/*'		=> 'solutions-my'
 	);
 
 	/**

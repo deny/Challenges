@@ -1,23 +1,41 @@
-<header>
-	<h2>Rozwiązanie:<?php echo $this->oTask->getName()?></h2>
-	<a href="/dashboard">strona główna</a> >
-	<a href="/solutions/my-list">moje rozwiązania</a>
-</header>
-<h1><?php echo $this->oTask->getName()?></h1>
+<?php
+	$this->layout_Class('task-show');
+	$this->layout_Breadcrumbs(array(
+		'moje zadania'		=> '/tasks/my-list',
+		'zadanie'			=> '/tasks/my-show/id/'. $this->oSolution->getTask()->getId(),
+		'lista rozwiazań'	=> '/solutions/list/id/'. $this->oSolution->getTask()->getId(),
+		'rozwiązanie'		=> null
+	));
 
-	<a href="/tasks/list">lista zadań</a>
-<?php if(isset($this->oCurrentUser) && $this->oCurrentUser->getRole() == \Model\Users\User::ROLE_MOD): ?>
-	|
-	<a href="/tasks/my-list">moja lista zadań</a> |
-	<a href="/tasks/edit/id/<?php echo $this->oTask->getId()?>">edytuj zadanie</a> |
-	<a href="/tasks/del/id/<?php echo $this->oTask->getId()?>">usuń zadanie</a>
-	<br /><br />
-<?php endif; ?>
+	$aLanguages = \Model\Tasks\SolutionFactory::getLanguages();
+?>
+<h2 class="webfont">Rozwiazanie zadania</h2>
 
-<?php if(isset($this->oCurrentUser)): ?>
-	<a href="/solutions/add/id/<?php echo $this->oTask->getId()?>">zgłoś rozwiązanie</a>
-	<br /><br />
-<?php endif; ?>
-
-<label>Opis:</label>
-<p><?php echo $this->oTask->getDescription()?></p>
+<div class="head">
+	<h3><?php echo $this->oSolution->getTask()->getName()?></h3>
+	<span></span>
+</div>
+<div class="desc">
+	<label>Autor:</label>
+	<p>
+		<?php echo $this->oSolution->getAuthor()->getFullName() ?>
+	</p>
+</div>
+<div class="desc">
+	<label>Czas wykonania:</label>
+	<p>
+		<?php echo number_format($this->oSolution->getRunTime(), 0, ',', ' ') ?> ms
+	</p>
+</div>
+<div class="desc">
+	<label>Język programowania:</label>
+	<p>
+		<?php echo $aLanguages[$this->oSolution->getLanguage()] ?>
+	</p>
+</div>
+<div class="desc">
+	<label>Kod rozwiązania:</label>
+	<p>
+		<?php echo str_replace("\n", '<br />', $this->oSolution->getCode()) ?>
+	</p>
+</div>

@@ -26,8 +26,9 @@
 					<?php echo $oTask->getName() ?>
 				</a>
 			</td>
-			<td><?php echo substr($oTask->getDescription(), 0, 120) ?></td>
+			<td><?php echo substr($oTask->getDescription(), 0, 120) ?>...</td>
 			<td>
+				<a href="/solutions/list/id/<?php echo $oTask->getId() ?>">rozwiązania</a> |
 				<a href="/tasks/edit/id/<?php echo $oTask->getId() ?>">edytuj</a> |
 				<a href="#/tasks/del/id/<?php echo $oTask->getId() ?>" class="confirm" data-ask="Czy na pewno chcesz usunąć to zadanie?">usuń</a>
 			</td>

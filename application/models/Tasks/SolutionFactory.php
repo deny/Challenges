@@ -58,4 +58,16 @@ class SolutionFactory extends \Sca\DataObject\Factory
 
 		return $this->buildObject($aDbRes[0]);
 	}
+
+	/**
+	 * Zwraca nazwy dostępnych jezyków programowania
+	 *
+	 * @return	array
+	 */
+	public static function getLanguages()
+	{
+		return [
+			Solution::LANGUAGE_PHP	=> 'PHP 5.4'
+		];
+	}
 }

@@ -18,6 +18,13 @@ class SolutionsController extends Core_Controller_Action
 	protected $oSolutionF;
 
 	/**
+	 * Fabryka zadań
+	 *
+	 * @var	\Model\Tasks\TaskFactory
+	 */
+	protected $oTaskF;
+
+	/**
 	 * Inicjalizacja
 	 */
 	public function init()
@@ -25,18 +32,10 @@ class SolutionsController extends Core_Controller_Action
 		parent::init();
 
 		$this->oSolutionF = \Model\Tasks\SolutionFactory::getInstance();
+		$this->oTaskF = \Model\Tasks\TaskFactory::getInstance();
 	}
 
 // USER-SECTION
-
-	/**
-	 * Pokazuje szczegóły rozwiązania
-	 */
-	public function showAction()
-	{
-		$this->mustBe([User::ROLE_USER, User::ROLE_MOD]);
-		$this->view->assign('oSolution', $this->getSolution());
-	}
 
 	/**
 	 * Lista moich rozwiązań
@@ -54,7 +53,7 @@ class SolutionsController extends Core_Controller_Action
 
 		$oWhere = new \Sca\DataObject\Where('s_author = ?', $this->oCurrentUser->getId());
 
-		$oPaginator = $this->oSolutionF->getPaginator($iPage, self::ITEMS_COUNT, ['s_status', 't_name'], $oWhere, ['task']);
+		$oPaginator = $this->oSolutionF->getPaginator($iPage, self::ITEMS_COUNT, ['s_status DESC', 't_name'], $oWhere, ['task']);
 
 		if($oPaginator->count() > 0 && $iPage > $oPaginator->count())
 		{
@@ -163,6 +162,56 @@ class SolutionsController extends Core_Controller_Action
 		$this->_helper->viewRenderer('solution-form');
 	}
 
+// MODERATOR-SECTION
+
+	/**
+	 * Pokazuje szczegóły rozwiązania
+	 */
+	public function showAction()
+	{
+		$this->mustBe([User::ROLE_MOD]);
+
+		$oSolution = $this->getSolution(false);
+
+		if($oSolution->getTask()->getAuthorId() != $this->oCurrentUser->getId())
+		{
+			$this->moveTo404();
+		}
+
+		$this->view->assign('oSolution', $oSolution);
+	}
+
+	/**
+	 * Pokazuje listę rozwiązań dla wybranego zadania
+	 */
+	public function listAction()
+	{
+		$this->mustBe([User::ROLE_MOD]);
+
+		$oTask = $this->getTask();
+
+		$iPage = $this->_request->getParam('page', 1);
+
+		if($iPage < 1)
+		{
+			$this->moveTo404();
+		}
+
+		$oWhere = new \Sca\DataObject\Where('s_task = ?', $oTask->getId());
+		$oWhere->addAnd('s_status = ?', \Model\Tasks\Solution::STATUS_SUCCESS);
+
+		$oPaginator = $this->oSolutionF->getPaginator($iPage, self::ITEMS_COUNT, ['u_surname'], $oWhere, ['author']);
+
+		if($oPaginator->count() > 0 && $iPage > $oPaginator->count())
+		{
+			$this->moveTo404();
+			exit();
+		}
+
+		$this->view->assign('oPaginator', $oPaginator);
+		$this->view->assign('oTask', $oTask);
+	}
+
 // POMOCNICZE
 
 	/**
@@ -170,14 +219,14 @@ class SolutionsController extends Core_Controller_Action
 	 *
 	 * @return	\Model\Tasks\Solution
 	 */
-	protected function getSolution()
+	protected function getSolution($bCheckAuthor = true)
 	{
 		try
 		{
 			$iId = $this->_request->getParam('id', 0);
 			$oSolution = $this->oSolutionF->getOne($iId);
 
-			if($this->oCurrentUser->getId() != $oSolution->getAuthorId())
+			if($bCheckAuthor && $this->oCurrentUser->getId() != $oSolution->getAuthorId())
 			{
 				$this->moveTo404();
 				exit();
@@ -190,6 +239,33 @@ class SolutionsController extends Core_Controller_Action
 		}
 
 		return $oSolution;
+	}
+
+	/**
+	 * Zwraca zadanie na podstawie otrzymanego ID
+	 *
+	 * @return	\Model\Tasks\Task
+	 */
+	protected function getTask()
+	{
+		try
+		{
+			$iId = $this->_request->getParam('id', 0);
+			$oTask = $this->oTaskF->getOne($iId);
+
+			if($this->oCurrentUser->getId() != $oTask->getAuthorId())
+			{
+				$this->moveTo404();
+				exit();
+			}
+		}
+		catch(\Sca\DataObject\Exception $oExc)
+		{
+			$this->moveTo404();
+			exit();
+		}
+
+		return $oTask;
 	}
 
 // FILTRY

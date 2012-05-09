@@ -1,8 +1,8 @@
 <?php
 	$this->layout_Class('task-show');
 	$this->layout_Breadcrumbs(array(
-		'moje zadania'			=> '/tasks/my-list',
-		'szczegóły zadania'	=> null
+		'moje zadania'	=> '/tasks/my-list',
+		'zadanie'		=> null
 	));
 ?>
 
@@ -11,6 +11,7 @@
 <div class="head">
 	<h3><?php echo $this->oTask->getName() ?></h3>
 	<span>
+		<a href="/solutions/list/id/<?php echo $this->oTask->getId()?>">rozwiązania</a>
 		<a href="/solutions/add/id/<?php echo $this->oTask->getId()?>">zgłoś rozwiązanie</a>
 		<a href="/tasks/edit/id/<?php echo $this->oTask->getId()?>">edytuj zadanie</a>
 		<a href="#/tasks/del/id/<?php echo $this->oTask->getId()?>" class="confirm" data-ask="Czy na pewno chcesz usunąć to zadanie?">usuń zadanie</a>

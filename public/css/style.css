@@ -262,7 +262,7 @@ footer p, footer a {
 /* @end =tasks-list */
 /* @begin =tasks-my-list */
 .tasks-my table td.actions {
-    width: 150px;
+    width: 230px;
 }
 .tasks-my h2 {
     float: left;
@@ -330,7 +330,7 @@ footer p, footer a {
 }
 .task-show .desc p {
     background-color: #efefef;
-    padding: 5px;
+    padding: 15px;
     margin-top: 10px;
 }
 /* @end =tasks-show */
@@ -346,6 +346,9 @@ footer p, footer a {
     background-color: #efefef;
     padding: 5px;
     margin-top: 10px;
+}
+.solution-show .desc p.error {
+    color: #ff0404;
 }
 .solution-show .content form textarea {
     height: 400px;

@@ -10,11 +10,12 @@
 
 <div class="head">
 	<h3><?php echo $this->oTask->getName() ?></h3>
-<?php if(isset($this->oCurrentUser)): ?>
 	<span>
+<?php if(isset($this->oCurrentUser)): ?>
+
 		<a href="/solutions/add/id/<?php echo $this->oTask->getId()?>">zgłoś rozwiązanie</a>
-	</span>
 <?php endif; ?>
+	</span>
 </div>
 <div class="desc">
 	<label>Opis zadania</label>

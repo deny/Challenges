@@ -81,7 +81,7 @@ class TasksController extends Core_Controller_Action
 	 */
 	public function myShowAction()
 	{
-		$this->mustBe([User::ROLE_USER, User::ROLE_MOD]);
+		$this->mustBe([User::ROLE_MOD]);
 		$this->view->assign('oTask', $this->getTask(true));
 	}
 

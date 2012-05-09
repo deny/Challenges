@@ -11,8 +11,8 @@
 	<thead>
 		<tr>
 			<td class="name">Nazwa zadania</td>
-			<td class="desc">Opis zadania</td>
 			<td class="author">Autor</td>
+			<td class="desc">Opis zadania</td>
 		</tr>
 	</thead>
 	<tbody>
@@ -23,8 +23,8 @@
 					<?php echo $oTask->getName() ?>
 				</a>
 			</td>
-			<td><?php echo substr($oTask->getDescription(), 0, 120) ?></td>
 			<td><?php echo $oTask->getAuthor()->getFullName() ?></td>
+			<td><?php echo substr($oTask->getDescription(), 0, 120) ?>...</td>
 		</tr>
 <?php endforeach;?>
 	</tbody>

@@ -1,0 +1,43 @@
+<?php
+	$this->layout_Class('list-wrapper task-list ');
+	$this->layout_Breadcrumbs(array(
+		'moje zadania'	=> '/tasks/my-list',
+		'zadanie'		=> '/tasks/my-show/id/'. $this->oTask->getId(),
+		'lista rozwiazań'	=> null
+	));
+?>
+
+<h2 class="webfont">Lista rozwiazan zadania</h2>
+
+<div class="head">
+	<h3><?php echo $this->oTask->getName()?></h3>
+</div>
+<br />
+<table>
+	<thead>
+		<tr>
+			<td>Autor</td>
+			<td>Czas wykonania</td>
+			<td>Akcje</td>
+		</tr>
+	</thead>
+	<tbody>
+<?php foreach($this->oPaginator as $oSolution): ?>
+		<tr>
+			<td>
+					<?php echo $oSolution->getAuthor()->getFullName() ?>
+			</td>
+			<td><?php echo $oSolution->getRunTime() === null ? '---' : $oSolution->getRunTime() . 'ms' ?></td>
+			<td>
+				<a href="/solutions/show/id/<?php echo $oSolution->getId()?>">zobacz rozwiązanie</a>
+			</td>
+		</tr>
+<?php endforeach;?>
+	</tbody>
+</table>
+
+<?php echo $this->paginator($this->oPaginator, [
+	'pname'		=> 'page',
+	'pcount'	=> 6,
+	'actionUrl'	=> '/solutions/list'
+]);?>
