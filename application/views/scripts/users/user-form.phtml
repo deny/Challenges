@@ -1,0 +1,53 @@
+<?php
+	$this->layout_Class('standalone-form');
+
+	$this->layout_Breadcrumbs(array(
+		'użytkownicy'			=> '/users/list',
+		'edycja użytkownika'	=> null
+	));
+
+	$aEmpty = ['' => '-- wybierz z listy --']
+?>
+
+
+<h2 class="webfont">Edycja uzytkownika</h2>
+
+<form method="post" action="/users/edit/id/<?php echo $this->oUser->getId() ?>" autocomplete="off">
+
+	<?php $sField = 'name';
+	echo $this->form_Field(
+		'imię',
+		$sField,
+		$this->formText($sField, $this->form_Value($sField))
+	)?>
+
+	<?php $sField = 'surname';
+	echo $this->form_Field(
+		'nazwisko',
+		$sField,
+		$this->formText($sField, $this->form_Value($sField))
+	)?>
+
+	<?php $sField = 'email';
+	echo $this->form_Field(
+		'email',
+		$sField,
+		$this->formText($sField, $this->form_Value($sField))
+	)?>
+
+	<?php $sField = 'role';
+	echo $this->form_Field(
+		'rola',
+		$sField,
+		$this->formSelect($sField, $this->form_Value($sField), [], $aEmpty + \Model\Users\UserFactory::getRoles())
+	)?>
+
+	<?php $sField = 'status';
+	echo $this->form_Field(
+		'status',
+		$sField,
+		$this->formSelect($sField, $this->form_Value($sField), [], $aEmpty + \Model\Users\UserFactory::getStatus())
+	)?>
+
+	<button type="submit">zapisz</button>
+</form>

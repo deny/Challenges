@@ -99,7 +99,7 @@ class IndexController extends Core_Controller_Action
 					$aValues['surname']
 				);
 
-				$this->showFormMessages('KOnto zostało utworzone. Zaloguj się.');
+				$this->addMessage('Konto zostało utworzone. Zaloguj się.');
 				$this->_redirect('/');
 				exit();
 			}

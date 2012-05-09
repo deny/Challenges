@@ -17,6 +17,15 @@ class View_Helper_Layout_Menu extends Zend_View_Helper_Abstract
 	);
 
 	/**
+	 * Menu główne dla admina
+	 *
+	 * @var	array
+	 */
+	protected static $aAdminMenu = array(
+		'users'		=> array('Użytkownicy', '/users/list')
+	);
+
+	/**
 	 * Adresy i powiązane z nimi menu
 	 */
 	protected static $aAdresses = array(
@@ -27,7 +36,8 @@ class View_Helper_Layout_Menu extends Zend_View_Helper_Abstract
 		'tasks/my-show'		=> 'tasks-my',
 		'solutions/list'	=> 'tasks-my',
 		'solutions/show'	=> 'tasks-my',
-		'solutions/*'		=> 'solutions-my'
+		'solutions/*'		=> 'solutions-my',
+		'users/*'			=> 'users'
 	);
 
 	/**
@@ -54,12 +64,20 @@ class View_Helper_Layout_Menu extends Zend_View_Helper_Abstract
 		}
 
 	// dostosowanie menu
-		$aMenu = self::$aMenu;
-
 		$oAuth = Core_Auth::getInstance();
+
 		if($oAuth->hasIdentity() && $oAuth->getUser()->getRole() != \Model\Users\User::ROLE_MOD)
 		{
-			unset($aMenu['tasks-my']);
+			$aMenu = self::$aMenu;
+
+			if($oAuth->getUser()->getRole() == \Model\Users\User::ROLE_ADMIN)
+			{
+				$aMenu = self::$aAdminMenu;
+			}
+			elseif($oAuth->getUser()->getRole() != \Model\Users\User::ROLE_MOD)
+			{
+				unset($aMenu['tasks-my']);
+			}
 		}
 
 	// utworzenie menu

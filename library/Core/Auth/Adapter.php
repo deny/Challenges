@@ -51,7 +51,6 @@ class Core_Auth_Adapter implements Zend_Auth_Adapter_Interface
 			return new Zend_Auth_Result(Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND, $this->sEmail);
 		}
 
-
 		// sprawdzenie hasła i aktywności konta
 		if($oUser->isPasswdMatch($this->sPasswd) && $oUser->getStatus() == User::STATUS_ACTIVE)
 		{

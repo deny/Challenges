@@ -1,0 +1,45 @@
+<?php
+	$this->layout_Class('list-wrapper task-list');
+	$this->layout_Breadcrumbs(array(
+		'użytkownicy'	=> null
+	));
+
+	$aRoles = \Model\Users\UserFactory::getRoles();
+?>
+
+<h2 class="webfont">Lista wszystkich uzytkownikow</h2>
+
+<table>
+	<thead>
+		<tr>
+			<td>Imię i nazwisko</td>
+			<td>E-mail</td>
+			<td>Rola</td>
+			<td>Akcje</td>
+		</tr>
+	</thead>
+	<tbody>
+<?php foreach($this->oPaginator as $oUser): ?>
+		<tr>
+			<td><?php echo $oUser->getFullName() ?></td>
+			<td><?php echo $oUser->getEmail() ?></td>
+			<td><?php echo $aRoles[$oUser->getRole()] ?></td>
+			<td>
+	<?php if($oUser->getStatus() == \Model\Users\User::STATUS_ACTIVE): ?>
+				<a href="/users/status/id/<?php echo $oUser->getId()?>">banuj</a> |
+	<?php else: ?>
+				<a href="/users/status/id/<?php echo $oUser->getId()?>">odbanuj</a> |
+	<?php endif; ?>
+				<a href="/users/edit/id/<?php echo $oUser->getId()?>">edytuj</a> |
+				<a href="#/users/del/id/<?php echo $oUser->getId()?>" class="confirm" data-ask="Czy na pewno chcesz usunąć tego użytkownika?">usuń</a>
+			</td>
+		</tr>
+<?php endforeach;?>
+	</tbody>
+</table>
+
+<?php echo $this->paginator($this->oPaginator, [
+	'pname'		=> 'page',
+	'pcount'	=> 6,
+	'actionUrl'	=> '/users/list'
+]);?>

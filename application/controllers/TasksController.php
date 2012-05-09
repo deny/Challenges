@@ -242,7 +242,7 @@ class TasksController extends Core_Controller_Action
 	 * @param	\Model\Tasks\Task	$oTask	obiekt edytowanego zadania
 	 * @return	Core_Filter_Input
 	 */
-	protected function getFilter($oUser = null)
+	protected function getFilter($oTask = null)
 	{
 		$aValues = $this->_request->getPost();
 

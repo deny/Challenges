@@ -67,4 +67,32 @@ class UserFactory extends \Sca\DataObject\Factory
 	{
 		return sha1($sPasswd . '_ch4ll3nge5_'. $sSalt);
 	}
+
+	/**
+	 * Zwraca listę roli
+	 *
+	 * @return	array
+	 */
+	public static function getRoles()
+	{
+		return [
+			\Model\Users\User::ROLE_ADMIN 	=> 'administrator',
+			\Model\Users\User::ROLE_MOD 	=> 'moderator',
+			\Model\Users\User::ROLE_USER 	=> 'użytkownik'
+		];
+	}
+
+	/**
+	 * Zwraca listę roli
+	 *
+	 * @return	array
+	 */
+	public static function getStatus()
+	{
+		return [
+			\Model\Users\User::STATUS_ACTIVE	=> 'aktywny',
+			\Model\Users\User::STATUS_INACTIVE	=> 'nieaktywny',
+			\Model\Users\User::STATUS_BANNED	=> 'zbanowany'
+		];
+	}
 }
