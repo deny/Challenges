@@ -16,7 +16,7 @@
 	<body>
 		<header>
 			<div class="login">
-				<p>Witaj <span><?php echo Core_Auth::getInstance()->getUser()->getFullName()?>!</span><a href="/index/logout">Wyloguj się</a></p>
+				<p>Witaj <span><a href="/profile/edit"><?php echo Core_Auth::getInstance()->getUser()->getFullName()?></a>!</span><a href="/index/logout">Wyloguj się</a></p>
 			</div>
 			<h1><a href="/">Challenges</a></h1>
 

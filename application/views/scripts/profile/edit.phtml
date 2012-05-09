@@ -1,0 +1,47 @@
+<?php
+	$this->layout_Class('standalone-form');
+	$this->layout_Breadcrumbs(array(
+		'edycja profilu'	=> null
+	));
+?>
+<h2 class="webfont">Edycja profilu</h2>
+<div>
+	<form method="post" action="/profile/edit" autocomplete="off">
+		<?php $sField = 'name';
+		echo $this->form_Field(
+			'imię',
+			$sField,
+			$this->formText($sField, $this->form_Value($sField))
+		)?>
+
+		<?php $sField = 'surname';
+		echo $this->form_Field(
+			'nazwisko',
+			$sField,
+			$this->formText($sField, $this->form_Value($sField))
+		)?>
+
+		<?php $sField = 'email';
+		echo $this->form_Field(
+			'email',
+			$sField,
+			$this->formText($sField, $this->form_Value($sField))
+		)?>
+
+		<?php $sField = 'passwd';
+		echo $this->form_Field(
+			$this->bEdit ? 'nowe hasło' : 'hasło',
+			$sField,
+			$this->formPassword($sField)
+		)?>
+
+		<?php $sField = 'passwd2';
+		echo $this->form_Field(
+			'powtórz hasło',
+			$sField,
+			$this->formPassword($sField)
+		)?>
+
+		<button type="submit">zapisz zmiany</button>
+	</form>
+</div>

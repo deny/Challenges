@@ -39,15 +39,15 @@ class User extends \Sca\DataObject\Element
 	/**
 	 * Ustawia nwoe hasło usera
 	 *
-	 * @param	string	$sPassword	nowe hasło
+	 * @param	string	$sPasswd	nowe hasło
 	 * @return	\Model\Users\User
 	 */
-	public function setNewPassword($sPassword)
+	public function setNewPassword($sPasswd)
 	{
 		$sSalt = sha1(time() . '_c0n57_'. $this->getEmail() . $sPasswd);
 		$sPasswd = \Model\Users\UserFactory::hashPasswd($sPasswd, $sSalt);
 
-		$this->setPassword($sPasswd);
+		$this->setPasswd($sPasswd);
 		$this->setSalt($sSalt);
 
 		return $this;

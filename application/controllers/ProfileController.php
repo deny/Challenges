@@ -8,13 +8,24 @@ use \Model\Users\User;
 class ProfileController extends Core_Controller_Action
 {
 	/**
-	 * Edycja istniejęcego zadania
+	 * Inicjalizacja
+	 */
+	public function init()
+	{
+		parent::init();
+
+		if(!Core_Auth::getInstance()->hasIdentity())
+		{
+			$this->moveTo404();
+		}
+	}
+
+	/**
+	 * Edycja konta
 	 */
 	public function editAction()
 	{
-		$this->mustBe([User::ROLE_ADMIN]);
-
-		$oUser = $this->getUser();
+		$oUser = $this->oCurrentUser;
 
 		if($this->_request->isPost())
 		{
@@ -27,8 +38,11 @@ class ProfileController extends Core_Controller_Action
 				$oUser->setName($aValues['name']);
 				$oUser->setSurname($aValues['surname']);
 				$oUser->setEmail($aValues['email']);
-				$oUser->setPass($aValues['role']);
-				$oUser->setStatus($aValues['status']);
+
+				if(!empty($aValues['passwd']))
+				{
+					$oUser->setNewPassword($aValues['passwd']);
+				}
 				$oUser->save();
 
 				$this->addMessage('Zmiany zostały zapisane');
@@ -46,8 +60,6 @@ class ProfileController extends Core_Controller_Action
 				'email'		=> $oUser->getEmail()
 			]);
 		}
-
-		$this->_helper->viewRenderer('profile-form');
 	}
 
 // FILTRY
@@ -80,10 +92,12 @@ class ProfileController extends Core_Controller_Action
 			),
 			'passwd' => array(
 				new Core_Validate_StringLength(array('min' => 8)),
+				'allowEmpty'	=> true
 			),
 			'passwd2' => array(
 				new Core_Validate_StringLength(array('min' => 8)),
-				$oPasswd
+				$oPasswd,
+				'allowEmpty'	=> true
 			)
 		);
 
