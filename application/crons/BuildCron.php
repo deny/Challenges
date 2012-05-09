@@ -9,6 +9,11 @@ use \Model\Tasks\SolutionFactory;
 class BuildCron extends Core_Cron_Abstract
 {
 	/**
+	 * Limit czasowy
+	 */
+	const TIME_LIMIT = 1;
+
+	/**
 	 * Globalsy
 	 *
 	 * @var GlobalsFactory
@@ -42,42 +47,74 @@ class BuildCron extends Core_Cron_Abstract
 		$sTemp = PROJECT_PATH . '/data/tmp';
 		$sFile = $sTemp .'/'. str_replace([' ', '.'], '_', time() . microtime());
 
-		// wgrywamy rozwiązanie i dane do plików
+		// wstepne sprawdzenie kodu
+		$sCode = html_entity_decode($oSolution->getCode(), ENT_QUOTES, 'UTF-8');
 
-		file_put_contents($sFile . '.data', $oSolution->getTask()->getInput());
-		file_put_contents($sFile . '.php', html_entity_decode($oSolution->getCode(), ENT_QUOTES, 'UTF-8'));
+		$aProhibitetFunc = [
+			'set_time_limit', 'exec'
+		];
 
-		// uruchomienie rozwiązania
-		$aOutput = [];
-		$iReturn = null;
-
-		$iStartTime = microtime(true);
-		exec('php '. $sFile .'.php "`cat '. $sFile .'.data`" 2> /dev/null', $aOutput, $iReturn);
-		$iEndTime = microtime(true);
-
-		unlink($sFile.'.php');
-		unlink($sFile.'.data');
-
-		$sResult = str_replace("\r", '', implode("\n", $aOutput));
-		$sOutput = str_replace("\r", '', $oSolution->getTask()->getOutput());
-
-		if($iReturn != 0)
+		$bGoodCode = true;
+		foreach($aProhibitetFunc as $sFunc)
 		{
-			$oSolution->setStatus(Solution::STATUS_ERROR);
-			$oSolution->setInfo('Błąd podczas uruchamiania programu');
-			$oSolution->setRunTime(null);
+			if(strpos($sCode, $sFunc. '(') !== false)
+			{
+				$oSolution->setStatus(Solution::STATUS_ERROR);
+				$oSolution->setInfo('Wywołanie niedozwolonej funkcji: '. $sFunc);
+				$oSolution->setRunTime(null);
+				$bGoodCode = false;
+				break;
+			}
 		}
-		elseif(strcmp($sResult, $sOutput))
+
+		if($bGoodCode)
 		{
-			$oSolution->setStatus(Solution::STATUS_ERROR);
-			$oSolution->setInfo('Niepoprawny wynik działania programu');
-			$oSolution->setRunTime(null);
-		}
-		else
-		{
-			$oSolution->setStatus(Solution::STATUS_SUCCESS);
-			$oSolution->setRunTime(round(($iEndTime - $iStartTime) * 1000));
-			$oSolution->setInfo(null);
+			// wgrywamy rozwiązanie i dane do plików
+			file_put_contents($sFile . '.data', $oSolution->getTask()->getInput());
+			file_put_contents($sFile . '.php', $sCode);
+
+			// uruchomienie rozwiązania
+			$aOutput = [];
+			$iReturn = null;
+
+			$iStartTime = microtime(true);
+			exec('timeout '. self::TIME_LIMIT .' php '. $sFile .'.php "`cat '. $sFile .'.data`" 2> /dev/null', $aOutput, $iReturn);
+			$iEndTime = microtime(true);
+
+			unlink($sFile.'.php');
+			unlink($sFile.'.data');
+
+			$sResult = str_replace("\r", '', implode("\n", $aOutput));
+			$sOutput = str_replace("\r", '', $oSolution->getTask()->getOutput());
+
+			if($iReturn != 0)
+			{
+				$oSolution->setStatus(Solution::STATUS_ERROR);
+
+				$iRunTime = ceil($iEndTime - $iStartTime);
+				if($iRunTime > 1)
+				{
+					$oSolution->setInfo('Czas wykonania programu większy od '. self::TIME_LIMIT .'s');
+				}
+				else
+				{
+					$oSolution->setInfo('Błąd podczas uruchamiania programu');
+				}
+
+				$oSolution->setRunTime(null);
+			}
+			elseif(strcmp($sResult, $sOutput))
+			{
+				$oSolution->setStatus(Solution::STATUS_ERROR);
+				$oSolution->setInfo('Niepoprawny wynik działania programu');
+				$oSolution->setRunTime(null);
+			}
+			else
+			{
+				$oSolution->setStatus(Solution::STATUS_SUCCESS);
+				$oSolution->setRunTime(round(($iEndTime - $iStartTime) * 1000));
+				$oSolution->setInfo(null);
+			}
 		}
 
 		$oSolution->setWorkerId(null);
