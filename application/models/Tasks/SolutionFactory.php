@@ -60,6 +60,64 @@ class SolutionFactory extends \Sca\DataObject\Factory
 	}
 
 	/**
+	 * Zwraca najnowsze rozwiązania usera
+	 *
+	 * @return	array
+	 */
+	public function getLast(\Model\Users\User $oUser, $iCount)
+	{
+		$aDbRes = $this->getSelect('*', ['task'])
+							->where('s_author = ?', $oUser->getId())
+							->order('s_id DESC')
+							->limit($iCount)
+							->query()->fetchAll();
+
+		return $this->buildList($aDbRes);
+	}
+
+	/**
+	 * Zwraca liczbę dodanych rozwiązań
+	 *
+	 * @return	int
+	 */
+	public function getCount($sStatus = null)
+	{
+		$oWhere = new \Sca\DataObject\Where();
+
+		if(isset($sStatus))
+		{
+			$oWhere->addAnd('s_status = ?', Solution::STATUS_SUCCESS);
+		}
+		$aDbRes = $this->oDb->select()
+							->from('solution', array('COUNT(*)'))
+							->where($oWhere)
+							->query()->fetchAll(\Zend_Db::FETCH_COLUMN);
+
+		return $aDbRes[0];
+	}
+
+	/**
+	 * Zwraca liczbę dodanych przez usera rozwiązań
+	 *
+	 * @return	int
+	 */
+	public function getUserCount(\Model\Users\User $oUser, $sStatus = null)
+	{
+		$oWhere = new \Sca\DataObject\Where('s_author = ?', $oUser->getId());
+
+		if(isset($sStatus))
+		{
+			$oWhere->addAnd('s_status = ?', Solution::STATUS_SUCCESS);
+		}
+		$aDbRes = $this->oDb->select()
+							->from('solution', array('COUNT(*)'))
+							->where($oWhere)
+							->query()->fetchAll(\Zend_Db::FETCH_COLUMN);
+
+		return $aDbRes[0];
+	}
+
+	/**
 	 * Zwraca nazwy dostępnych jezyków programowania
 	 *
 	 * @return	array
@@ -70,4 +128,5 @@ class SolutionFactory extends \Sca\DataObject\Factory
 			Solution::LANGUAGE_PHP	=> 'PHP 5.4'
 		];
 	}
+
 }

@@ -56,6 +56,21 @@ class UserFactory extends \Sca\DataObject\Factory
 		return $this->buildObject($aDbRes[0]);
 	}
 
+
+	/**
+	 * Zwraca liczbę userów
+	 *
+	 * @return	int
+	 */
+	public function getCount()
+	{
+		$aDbRes = $this->oDb->select()
+							->from('user', array('COUNT(*)'))
+							->query()->fetchAll(\Zend_Db::FETCH_COLUMN);
+
+		return $aDbRes[0];
+	}
+
 	/**
 	 * Haszuje i soli hasło
 	 *

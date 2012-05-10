@@ -66,10 +66,10 @@ class View_Helper_Layout_Menu extends Zend_View_Helper_Abstract
 	// dostosowanie menu
 		$oAuth = Core_Auth::getInstance();
 
+		$aMenu = self::$aMenu;
+
 		if($oAuth->hasIdentity() && $oAuth->getUser()->getRole() != \Model\Users\User::ROLE_MOD)
 		{
-			$aMenu = self::$aMenu;
-
 			if($oAuth->getUser()->getRole() == \Model\Users\User::ROLE_ADMIN)
 			{
 				$aMenu = self::$aAdminMenu;

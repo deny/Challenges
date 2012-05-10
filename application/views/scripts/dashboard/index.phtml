@@ -1,1 +1,86 @@
-<h2 class="webfont">Podsumowanie</h2>
+<?php
+	$this->layout_Class('dashboard');
+?>
+
+	<h2 class="webfont">Podsumowanie</h2>
+
+	<h3>Ogólne statystyki</h3>
+	<br />
+	<p>
+		<strong><?php echo $this->iUsers ?></strong>
+		<?php echo $this->numerals($this->iUsers, 'zarejestrowany użytkownik', 'zarejestrowanych użytkowników', 'zarejestrowanych użytkowników') ?>
+
+		<br />
+		<br />
+
+		<strong><?php echo $this->iTasks ?></strong>
+		<?php echo $this->numerals($this->iTasks, 'zadanie oczekujace', 'zadania oczekujące', 'zadań oczekujących') ?>
+		na rozwiązanie
+
+		<br />
+		<br />
+
+		<strong><?php echo $this->iSolutions ?></strong>
+		<?php echo $this->numerals($this->iSolutions, 'zaproponowane rozwiązanie', 'zaproponowane rozwiazania', 'zaproponowanych rozwiazań') ?>
+		(w tym <strong><?php echo $this->iSolutionsSuccess ?></strong>
+		<?php echo $this->numerals($this->iSolutionsSuccess, 'poprawne', 'poprawne', 'poprawnych') ?>)
+	</p>
+
+	<br />
+	<br />
+	<h3>Najnowsze zadania</h3>
+	<br />
+	<p>
+		<ol>
+	<?php foreach($this->aTasks as $oTask): ?>
+			<li>
+				<a href="/tasks/show/id/<?php echo $oTask->getId() ?>"><strong><?php echo $oTask->getName()?></strong></a>
+				- <?php echo $oTask->getAuthor()->getFullName() ?>
+			</li>
+	<?php endforeach; ?>
+		</ol>
+	</p>
+
+<?php if(isset($this->iMySolutions)): ?>
+	<br />
+	<br />
+	<h3>Twoje statystyki</h3>
+	<br />
+	<p>
+		<strong><?php echo $this->iMySolutions ?></strong>
+		<?php echo $this->numerals($this->iMySolutions, 'zgłoszone', 'zgłoszone', 'zgłoszonych') ?>
+		przez Ciebie rozwiązania zadań
+		(w tym <strong><?php echo $this->iMySolutionsSuccess ?></strong>
+		<?php echo $this->numerals($this->iMySolutionsSuccess, 'poprawne', 'poprawne', 'poprawnych') ?>)
+
+	<?php if(isset($this->iMyTasks)): ?>
+		<br />
+		<br />
+		<strong><?php echo $this->iMyTasks ?></strong>
+		<?php echo $this->numerals($this->iMyTasks, 'dodane przez Ciebie zadanie', 'dodane przez Ciebie zadania', 'dodanych przez Ciebie zadań') ?>
+	<?php endif; ?>
+
+	</p>
+
+	<br />
+	<br />
+	<h3>Twoje najnowsze rozwiązania</h3>
+	<br />
+	<p>
+		<ol>
+	<?php foreach($this->aSolutions as $oSolution): ?>
+			<li>
+				<a href="/solutions/edit/id/<?php echo $oSolution->getId() ?>"><strong><?php echo $oSolution->getTask()->getName()?></strong></a>
+				- status: <?php switch($oSolution->getStatus()) {
+						case \Model\Tasks\Solution::STATUS_NEW: echo 'oczekuje na ocenę'; break;
+						case \Model\Tasks\Solution::STATUS_TESTING: echo 'w trakcie oceny'; break;
+						case \Model\Tasks\Solution::STATUS_SUCCESS: echo 'sukces'; break;
+						case \Model\Tasks\Solution::STATUS_ERROR: echo 'błąd'; break;
+				}?>
+			</li>
+	<?php endforeach; ?>
+		</ol>
+	</p>
+<?php endif; ?>
+
+

@@ -247,6 +247,17 @@ footer p, footer a {
     text-align: left;
 }
 /* @end =error-wrapper */
+/* @begin =dashboard */
+.dashboard .content p {
+    margin-left: 40px;
+}
+.dashboard .content ol {
+    margin-left: 60px;
+}
+.dashboard .content ol li {
+    margin-bottom: 5px;
+}
+/* @end =dashboard */
 /* @begin =tasks */
 /* @begin =tasks-list */
 .task-list table td {
