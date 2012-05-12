@@ -73,7 +73,7 @@ class UsersController extends Core_Controller_Action
 				$oUser->setName($aValues['name']);
 				$oUser->setSurname($aValues['surname']);
 				$oUser->setEmail($aValues['email']);
-				$oUser->setRole($aValues['role']);
+				$oUser->setNewRole($aValues['role']);
 				$oUser->setStatus($aValues['status']);
 				$oUser->save();
 

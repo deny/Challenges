@@ -52,4 +52,39 @@ class User extends \Sca\DataObject\Element
 
 		return $this;
 	}
+
+	/**
+	 * Zmienia role usera
+	 *
+	 * @return	\Model\Users\User
+	 */
+	public function setNewRole($sRole)
+	{
+		if($sRole == User::ROLE_MOD)
+		{
+			try
+			{
+				$this->oDb->insert(
+					'user_e_moderator',
+					array('u_id' => $this->getId())
+				);
+			}
+			catch(Exception $oExc) {}
+		}
+		else
+		{
+			try
+			{
+				$this->oDb->delete(
+					'user_e_moderator',
+					'u_id = '. $this->getId()
+				);
+			}
+			catch(Exception $oExc) {}
+		}
+
+		$this->setRole($sRole);
+
+		return $this;
+	}
 }
