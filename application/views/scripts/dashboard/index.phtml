@@ -49,7 +49,7 @@
 	<p>
 		<strong><?php echo $this->iMySolutions ?></strong>
 		<?php echo $this->numerals($this->iMySolutions, 'zgłoszone', 'zgłoszone', 'zgłoszonych') ?>
-		przez Ciebie rozwiązania zadań
+		przez Ciebie <?php echo $this->numerals($this->iMySolutions, 'rozwiązanie', 'rozwiązania', 'rozwiązań') ?> zadań
 		(w tym <strong><?php echo $this->iMySolutionsSuccess ?></strong>
 		<?php echo $this->numerals($this->iMySolutionsSuccess, 'poprawne', 'poprawne', 'poprawnych') ?>)
 
@@ -82,5 +82,3 @@
 		</ol>
 	</p>
 <?php endif; ?>
-
-
