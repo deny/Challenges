@@ -13,6 +13,34 @@ class Task extends \Sca\DataObject\Element
 	use Base\Task;
 
 	/**
+	 * Sprawdza czy user jest wśród osób dopuszczonych do zadania
+	 *
+	 * @return	bool
+	 */
+	public function isInParticipants(\Model\Users\User $oUser)
+	{
+		if($this->getAccess() == \Model\Tasks\Task::ACCESS_PUBLIC)
+		{
+			return true;
+		}
+		elseif($this->getAuthorId() == $oUser->getId())
+		{
+			return true;
+		}
+
+		$aUsers = $this->getParticipants();
+
+		foreach($aUsers as $oTmp)
+		{
+			if($oTmp->getId() == $oUser->getId())
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+	/**
 	 * Przypina użytkowników do zadania
 	 *
 	 * @param	array	$aUserIds	numery id userów

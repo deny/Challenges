@@ -42,7 +42,15 @@ class TasksController extends Core_Controller_Action
 			$this->moveTo404();
 		}
 
-		$oPaginator = $this->oTaskF->getPaginator($iPage, self::ITEMS_COUNT, ['t_name'], null, ['author']);
+
+		$oWhere = new \Sca\DataObject\Where('t_access = ?', \Model\Tasks\Task::ACCESS_PRIVATE);
+		$oWhere->addAnd('tjp.tjp_id = ?', $this->oCurrentUser->getId());
+
+		$oWhere = new \Sca\DataObject\Where($oWhere);
+		$oWhere->addOr('t_access = ?', \Model\Tasks\Task::ACCESS_PUBLIC);
+		$oWhere->addOr('t_author = ?', $this->oCurrentUser->getId());
+
+		$oPaginator = $this->oTaskF->getPaginator($iPage, self::ITEMS_COUNT, ['t_name'], $oWhere, ['author', 'list']);
 
 		if($oPaginator->count() > 0 && $iPage > $oPaginator->count())
 		{

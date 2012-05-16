@@ -76,6 +76,11 @@ class SolutionsController extends Core_Controller_Action
 			$iId = $this->_request->getParam('id', 0);
 			$oTask = \Model\Tasks\TaskFactory::getInstance()->getOne($iId);
 
+			if(!$oTask->isInParticipants($this->oCurrentUser))
+			{
+				throw new \Sca\DataObject\Exception('Zadanie nie dla tego usera');
+			}
+
 			$oWhere = new \Sca\DataObject\Where('s_task = ?', $oTask->getId());
 			$oWhere->addAnd('s_author = ?', $this->oCurrentUser->getId());
 
@@ -128,6 +133,12 @@ class SolutionsController extends Core_Controller_Action
 		$this->mustBe([User::ROLE_USER, User::ROLE_MOD]);
 
 		$oSolution = $this->getSolution();
+
+		if(!$oSolution->getTask()->isInParticipants($this->oCurrentUser))
+		{
+			$this->moveTo404();
+			exit();
+		};
 
 		if($this->_request->isPost())
 		{
