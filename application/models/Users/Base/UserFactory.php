@@ -70,7 +70,6 @@ trait UserFactory
 // FACTORY METHODS
 
 
-
 // OTHER
 
 	/**

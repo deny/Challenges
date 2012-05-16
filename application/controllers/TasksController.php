@@ -118,10 +118,11 @@ class TasksController extends Core_Controller_Action
 	public function addAction()
 	{
 		$this->mustBe(User::ROLE_MOD);
+		$aUsers = \Model\Users\UserFactory::getInstance()->getList();
 
 		if($this->_request->isPost())
 		{
-			$oFilter = $this->getFilter();
+			$oFilter = $this->getFilter($aUsers);
 
 			if($oFilter->isValid())
 			{
@@ -132,8 +133,11 @@ class TasksController extends Core_Controller_Action
 					$aValues['name'],
 					$aValues['description'],
 					$aValues['input'],
-					$aValues['output']
+					$aValues['output'],
+					$aValues['access']
 				);
+
+				$oTask->resetParticipants(empty($aValues['users']) ? [] : $aValues['users']);
 
 				$this->addMessage('Zadanie zostało pomyślnie dodane do listy zadań');
 				$this->_redirect('/tasks/my-list');
@@ -143,6 +147,7 @@ class TasksController extends Core_Controller_Action
 			$this->showFormMessages($oFilter);
 		}
 
+		$this->view->assign('aUsers', $aUsers);
 		$this->_helper->viewRenderer('task-form');
 	}
 
@@ -154,10 +159,11 @@ class TasksController extends Core_Controller_Action
 		$this->mustBe(User::ROLE_MOD);
 
 		$oTask = $this->getTask();
+		$aUsers = \Model\Users\UserFactory::getInstance()->getList();
 
 		if($this->_request->isPost())
 		{
-			$oFilter = $this->getFilter();
+			$oFilter = $this->getFilter($aUsers);
 
 			if($oFilter->isValid())
 			{
@@ -167,7 +173,10 @@ class TasksController extends Core_Controller_Action
 				$oTask->setDescription($aValues['description']);
 				$oTask->setInput($aValues['input']);
 				$oTask->setOutput($aValues['output']);
+				$oTask->setAccess($aValues['access']);
 				$oTask->save();
+
+				$oTask->resetParticipants(empty($aValues['users']) ? [] : $aValues['users']);
 
 				$this->addMessage('Zadanie zostało pomyślnie zmienione');
 				$this->_redirect('/tasks/my-list');
@@ -178,15 +187,26 @@ class TasksController extends Core_Controller_Action
 		}
 		else
 		{
+			$aTmp = $oTask->getParticipants();
+
+			$aParticipants = [];
+			foreach($aTmp as $oUser)
+			{
+				$aParticipants[] = $oUser->getId();
+			}
+
 			$this->view->assign('aValues', [
 				'name'			=> $oTask->getName(),
 				'description'	=> $oTask->getDescription(),
 				'input'			=> $oTask->getInput(),
-				'output'		=> $oTask->getOutput()
+				'output'		=> $oTask->getOutput(),
+				'access'		=> $oTask->getAccess(),
+				'users'			=> $aParticipants
 			]);
 		}
 
 		$this->view->assign('oTask', $oTask);
+		$this->view->assign('aUsers', $aUsers);
 		$this->_helper->viewRenderer('task-form');
 	}
 
@@ -239,23 +259,35 @@ class TasksController extends Core_Controller_Action
 	/**
 	 * Zwraca filtr dla zadań
 	 *
-	 * @param	\Model\Tasks\Task	$oTask	obiekt edytowanego zadania
+	 * @param	array	$aUsers		lista userów
 	 * @return	Core_Filter_Input
 	 */
-	protected function getFilter($oTask = null)
+	protected function getFilter(array	$aUsers)
 	{
 		$aValues = $this->_request->getPost();
+
+		$sAccess = empty($aValues['access']) ? \Model\Tasks\Task::ACCESS_PUBLIC : $aValues['access'];
 
     	// walidatory
 		$aValidators = array(
 			'name'	=> array(
-				new Core_Validate_StringLength(array('min' => 1, 'max' => 255)),
+				new Core_Validate_StringLength(['min' => 1, 'max' => 255]),
 			),
 			'description' => array(
 			),
 			'input' => array(
 			),
 			'output' => array(
+			),
+			'access' => array(
+				new Core_Validate_InArray(array(
+					\Model\Tasks\Task::ACCESS_PUBLIC,
+					\Model\Tasks\Task::ACCESS_PRIVATE
+				))
+			),
+			'users' => array(
+				new Core_Validate_InArray(array_keys($aUsers)),
+				'presence'	=> $sAccess == \Model\Tasks\Task::ACCESS_PUBLIC ? false : 'required'
 			)
 		);
 

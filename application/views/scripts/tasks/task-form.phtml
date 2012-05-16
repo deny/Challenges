@@ -2,6 +2,7 @@
 	$bEdit = isset($this->oTask);
 
 	$this->layout_Class('standalone-form');
+	$this->headScript()->appendFile('/js/task-form.js');
 
 	if($bEdit)
 	{
@@ -29,6 +30,7 @@
 <?php endif;?>
 
 <form method="post" action="/tasks<?php echo $bEdit ? '/edit/id/'. $this->oTask->getId() : '/add' ?>">
+
 	<?php $sField = 'name';
 	echo $this->form_Field(
 		'nazwa zadania',
@@ -40,21 +42,40 @@
 	echo $this->form_Field(
 		'opis zadania',
 		$sField,
-		$this->formTextarea($sField, $this->form_Value($sField), array('cols' => 70, 'rows' => 5))
+		$this->formTextarea($sField, $this->form_Value($sField), ['cols' => 70, 'rows' => 15])
 	)?>
 
 	<?php $sField = 'input';
 	echo $this->form_Field(
 		'dane wejściowe',
 		$sField,
-		$this->formTextarea($sField, $this->form_Value($sField), array('cols' => 70, 'rows' => 5))
+		$this->formTextarea($sField, $this->form_Value($sField), ['cols' => 70, 'rows' => 15])
 	)?>
 
 	<?php $sField = 'output';
 	echo $this->form_Field(
 		'dane wyjściowe',
 		$sField,
-		$this->formTextarea($sField, $this->form_Value($sField), array('cols' => 70, 'rows' => 5))
+		$this->formTextarea($sField, $this->form_Value($sField), ['cols' => 70, 'rows' => 15])
+	)?>
+
+	<?php $sField = 'access';
+	echo $this->form_Field(
+		'widocznośc zadania',
+		$sField,
+		$this->formSelect($sField, $this->form_Value($sField), null, [
+			\Model\Tasks\Task::ACCESS_PUBLIC	=> 'publiczne',
+			\Model\Tasks\Task::ACCESS_PRIVATE	=> 'prywatne'
+		])
+	)?>
+
+
+	<?php $sField = 'users';
+	echo $this->form_Field(
+		'lista uczestników',
+		$sField,
+		$this->form_MultiChoose($sField, $this->form_Value($sField, []), null, $this->aUsers),
+		['class' => 'field multi']
 	)?>
 
 

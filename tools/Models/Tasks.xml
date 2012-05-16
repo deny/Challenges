@@ -2,11 +2,13 @@
 
 <Tasks use="Users">
 	<Task>
-		<field name="author" 		type="Users:User" 		access="get" />
-		<field name="name"			type="string(255)"		access="get,set" />
-		<field name="description"	type="string"			access="get,set" />
-		<field name="input"			type="string"			access="get,set" />
-		<field name="output"		type="string"			access="get,set" />
+		<field name="author" 		type="Users:User" 			access="get" />
+		<field name="name"			type="string(255)"			access="get,set" />
+		<field name="description"	type="string"				access="get,set" />
+		<field name="input"			type="string"				access="get,set" />
+		<field name="output"		type="string"				access="get,set" />
+		<field name="access"		type="enum(public,private)"	access="get,set" />
+		<field name="participants"	type="Users:User(*)"		access="get,set" />
 	</Task>
 	<Solution>
 		<field name="task"		type="Task"			access="get" />

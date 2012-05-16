@@ -5,6 +5,7 @@ CREATE TABLE `task` (
 	`t_description` TEXT,
 	`t_input` TEXT,
 	`t_output` TEXT,
+	`t_access` ENUM("public","private"),
 	PRIMARY KEY(`t_id`)
 ) ENGINE=InnoDB;
 CREATE TABLE `solution` (
@@ -20,9 +21,18 @@ CREATE TABLE `solution` (
 	PRIMARY KEY(`s_id`)
 ) ENGINE=InnoDB;
 
+CREATE TABLE `task_j_participants` (
+	`t_id` INT(10) UNSIGNED,
+	`tjp_id` INT(10) UNSIGNED,
+	UNIQUE KEY `t_id` (`t_id`,`tjp_id`),
+	KEY `tjp_id` (`tjp_id`)
+) ENGINE=InnoDB;
 
 ALTER TABLE `task`
 	ADD CONSTRAINT `task_ibfk_t_author` FOREIGN KEY (`t_author`) REFERENCES `user` (`u_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `task_j_participants`
+	ADD CONSTRAINT `task_j_participants_ibfk_t_id` FOREIGN KEY (`t_id`) REFERENCES `task` (`t_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+	ADD CONSTRAINT `task_j_participants_ibfk_tjp_id` FOREIGN KEY (`tjp_id`) REFERENCES `user` (`u_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE `solution`
 	ADD CONSTRAINT `solution_ibfk_s_task` FOREIGN KEY (`s_task`) REFERENCES `task` (`t_id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	ADD CONSTRAINT `solution_ibfk_s_author` FOREIGN KEY (`s_author`) REFERENCES `user` (`u_id`) ON DELETE CASCADE ON UPDATE CASCADE;

@@ -34,11 +34,12 @@ trait TaskFactory
 	 * @param	string	sDescription
 	 * @param	string	sInput
 	 * @param	string	sOutput
+	 * @param	string	sAccess
 	 * @return	\Model\Tasks\Task
 	 */
-	public function create($iAuthorId, $sName, $sDescription, $sInput, $sOutput)
+	public function create($iAuthorId, $sName, $sDescription, $sInput, $sOutput, $sAccess)
 	{
-		$aData = $this->prepareToCreate([$iAuthorId, $sName, $sDescription, $sInput, $sOutput]);
+		$aData = $this->prepareToCreate([$iAuthorId, $sName, $sDescription, $sInput, $sOutput, $sAccess]);
 
 		return $this->createNewElement($aData);
 	}
@@ -57,7 +58,8 @@ trait TaskFactory
 				't_name' => $aData[1],
 				't_description' => $aData[2],
 				't_input' => $aData[3],
-				't_output' => $aData[4]
+				't_output' => $aData[4],
+				't_access' => $aData[5]
 		]];
 	}
 
@@ -106,6 +108,40 @@ trait TaskFactory
 		return $oSelect;
 	}
 
+
+	/**
+	 * Build model list
+	 *
+	 * @param	array	$aDbResult	database result
+	 * @return	array
+	 */
+	protected function buildList(array &$aDbResult, array $aOptions = [])
+	{
+		if(empty($aDbResult))
+		{
+			return array();
+		}
+
+		if(in_array('participants', $aOptions))
+		{
+			$aIds = [];
+			foreach($aDbResult as $aRow)
+			{
+				$aIds[] = $aRow[\Model\Tasks\Task::info()['key']];
+			}
+
+			$aTmp = \Model\Users\UserFactory::getInstance()->getTaskParticipants($aIds);
+
+			foreach($aDbResult as &$aRow)
+			{
+				$aRow['_participants'] = $aTmp[$aRow[\Model\Tasks\Task::info()['key']]];
+			}
+		}
+
+
+
+		return parent::buildList($aDbResult, $aOptions);
+	}
 
 
 	/**

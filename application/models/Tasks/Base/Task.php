@@ -10,6 +10,9 @@ namespace Model\Tasks\Base;
  */
 trait Task
 {
+	// CONST ACCESS_PUBLIC = 'public';
+	// CONST ACCESS_PRIVATE = 'private';
+
 
 
 // FIELDS
@@ -44,6 +47,16 @@ trait Task
 	 */
 	private $sOutput = null;
 
+	/**
+	 * @var	string
+	 */
+	private $sAccess = null;
+
+	/**
+	 * @var	array
+	 */
+	private $aParticipants = null;
+
 
 // INITIALIZATION
 
@@ -63,12 +76,18 @@ trait Task
 		$this->sDescription = $aRow['t_description'];
 		$this->sInput = $aRow['t_input'];
 		$this->sOutput = $aRow['t_output'];
+		$this->sAccess = $aRow['t_access'];
 
 
 
 		if(isset($aRow['_author']))
 		{
 			$this->oAuthor = $aRow['_author'];
+		}
+
+		if(isset($aRow['_participants']))
+		{
+			$this->oParticipants = $aRow['_participants'];
 		}
 
 
@@ -132,6 +151,27 @@ trait Task
 		return $this->sOutput;
 	}
 
+	/**
+	 * @return	string
+	 */
+	public function getAccess()
+	{
+		return $this->sAccess;
+	}
+
+	/**
+	 * @return	array
+	 */
+	public function getParticipants()
+	{
+		if(!isset($this->oParticipants))
+		{
+			$this->oParticipants = \Model\Users\UserFactory::getInstance()->getTaskParticipants($this->getId());
+		}
+
+		return $this->oParticipants;
+	}
+
 
 // SETTERS
 
@@ -176,6 +216,17 @@ trait Task
 	{
 		$this->sOutput = $mValue;
 		$this->setDataValue(self::info()['table'], 't_output', $mValue);
+		return $this;
+	}
+
+	/**
+	 * @param	string	$mValue		new value
+	 * @return	void
+	 */
+	public function setAccess($mValue)
+	{
+		$this->sAccess = $mValue;
+		$this->setDataValue(self::info()['table'], 't_access', $mValue);
 		return $this;
 	}
 

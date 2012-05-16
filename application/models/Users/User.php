@@ -60,12 +60,12 @@ class User extends \Sca\DataObject\Element
 	 */
 	public function setNewRole($sRole)
 	{
-		if($sRole == User::ROLE_MOD)
+		if($sRole == User::ROLE_ADMIN)
 		{
 			try
 			{
 				$this->oDb->insert(
-					'user_e_moderator',
+					'user_e_admin',
 					array('u_id' => $this->getId())
 				);
 			}
@@ -76,7 +76,7 @@ class User extends \Sca\DataObject\Element
 			try
 			{
 				$this->oDb->delete(
-					'user_e_moderator',
+					'user_e_admin',
 					'u_id = '. $this->getId()
 				);
 			}

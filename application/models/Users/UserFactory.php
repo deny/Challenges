@@ -72,6 +72,38 @@ class UserFactory extends \Sca\DataObject\Factory
 	}
 
 	/**
+	 * Zwraca listę userów
+	 *
+	 * @return	array
+	 */
+	public function getList()
+	{
+		return $this->oDb->fetchPairs(
+			$this->oDb->select()
+						->from('user', array('u_id, CONCAT(u_name, " ", u_surname) AS nick'))
+						->where('u_status = ?', User::STATUS_ACTIVE)
+						->where('u_role = ?', User::ROLE_USER)
+						->order('nick')
+		);
+	}
+
+	/**
+	 * Zwraca liste userów przypisanych do taska
+	 *
+	 * @param	int		$iTaskId	id taska
+	 * @return	array
+	 */
+	public function getTaskParticipants($iTaskId)
+	{
+		$aDbRes = $this->getSelect()
+							->join('task_j_participants AS tjp', 'tjp.tjp_id = u.u_id', '')
+							->where('tjp.t_id = ?', $iTaskId)
+							->query()->fetchAll();
+
+		return $this->buildList($aDbRes);
+	}
+
+	/**
 	 * Haszuje i soli hasło
 	 *
 	 * @param	string	$sPasswd	hasło

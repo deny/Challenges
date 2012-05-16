@@ -365,3 +365,26 @@ footer p, footer a {
     height: 400px;
 }
 /* @end =solution-show */
+form .multi p > label {
+    width: auto;
+    float: none;
+}
+form .formMultiChoose {
+    height: 250px;
+}
+form .formMultiChoose select {
+    float: left;
+    height: 100%;
+    width: 225px;
+}
+form .formMultiChoose .multiButtons {
+    float: left;
+    height: 100%;
+    margin-top:25px;
+    padding-left: 15px;
+    width: 35px;
+}
+form .formMultiChoose .multiButtons button {
+    margin-top: 10px;
+    margin-left: 0px;
+}
