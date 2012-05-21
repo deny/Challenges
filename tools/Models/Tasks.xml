@@ -9,6 +9,7 @@
 		<field name="output"		type="string"				access="get,set" />
 		<field name="access"		type="enum(public,private)"	access="get,set" />
 		<field name="participants"	type="Users:User(*)"		access="get,set" />
+		<field name="language"		type="enum(php,cpp)"	access="get,set" />
 	</Task>
 	<Solution>
 		<field name="task"		type="Task"			access="get" />
@@ -17,7 +18,7 @@
 		<field name="info"		type="string"		access="get,set" />
 		<field name="run_time"	type="int"			access="get,set" />
 		<field name="worker_id"	type="int"			access="get,set" />
-		<field name="language"	type="enum(php)"	access="get,set" />
+		<field name="language"	type="enum(php,cpp)"	access="get,set" />
 		<field name="status"	type="enum(new,testing,success,error)"	access="get,set" />
 	</Solution>
 </Tasks>

@@ -142,7 +142,8 @@ class TasksController extends Core_Controller_Action
 					$aValues['description'],
 					$aValues['input'],
 					$aValues['output'],
-					$aValues['access']
+					$aValues['access'],
+					$aValues['language']
 				);
 
 				$oTask->resetParticipants(empty($aValues['users']) ? [] : $aValues['users']);
@@ -182,6 +183,7 @@ class TasksController extends Core_Controller_Action
 				$oTask->setInput($aValues['input']);
 				$oTask->setOutput($aValues['output']);
 				$oTask->setAccess($aValues['access']);
+				$oTask->setLanguage(empty($aValues['language']) ? null : $aValues['language']);
 				$oTask->save();
 
 				$oTask->resetParticipants(empty($aValues['users']) ? [] : $aValues['users']);
@@ -209,6 +211,7 @@ class TasksController extends Core_Controller_Action
 				'input'			=> $oTask->getInput(),
 				'output'		=> $oTask->getOutput(),
 				'access'		=> $oTask->getAccess(),
+				'language'		=> $oTask->getLanguage(),
 				'users'			=> $aParticipants
 			]);
 		}
@@ -292,6 +295,10 @@ class TasksController extends Core_Controller_Action
 					\Model\Tasks\Task::ACCESS_PUBLIC,
 					\Model\Tasks\Task::ACCESS_PRIVATE
 				))
+			),
+			'language' => array(
+				'allowEmpty' => true,
+				new Core_Validate_InArray(array_keys(\Model\Tasks\SolutionFactory::getLanguages()))
 			),
 			'users' => array(
 				new Core_Validate_InArray(array_keys($aUsers)),

@@ -11,6 +11,7 @@ namespace Model\Tasks\Base;
 trait Solution
 {
 	// CONST LANGUAGE_PHP = 'php';
+	// CONST LANGUAGE_CPP = 'cpp';
 
 	// CONST STATUS_NEW = 'new';
 	// CONST STATUS_TESTING = 'testing';

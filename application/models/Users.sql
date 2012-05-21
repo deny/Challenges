@@ -7,6 +7,7 @@ CREATE TABLE `user` (
 	`u_surname` VARCHAR(80),
 	`u_role` ENUM("user","mod","admin"),
 	`u_status` ENUM("inactive","active","banned"),
+	`u_index` VARCHAR(6),
 	PRIMARY KEY(`u_id`)
 ) ENGINE=InnoDB;
 CREATE TABLE `user_e_admin` (

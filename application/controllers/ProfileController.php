@@ -38,6 +38,7 @@ class ProfileController extends Core_Controller_Action
 				$oUser->setName($aValues['name']);
 				$oUser->setSurname($aValues['surname']);
 				$oUser->setEmail($aValues['email']);
+				$oUser->setIndex(empty($aValues['index']) ? null : $aValues['index']);
 
 				if(!empty($aValues['passwd']))
 				{
@@ -57,7 +58,8 @@ class ProfileController extends Core_Controller_Action
 			$this->view->assign('aValues', [
 				'name'		=> $oUser->getName(),
 				'surname'	=> $oUser->getSurname(),
-				'email'		=> $oUser->getEmail()
+				'email'		=> $oUser->getEmail(),
+				'index'		=> $oUser->getIndex()
 			]);
 		}
 	}
@@ -89,6 +91,11 @@ class ProfileController extends Core_Controller_Action
 			),
 			'surname' => array(
 				new Core_Validate_StringLength(array('min' => 1, 'max' => 30)),
+			),
+			'index' => array(
+				'allowEmpty' => true,
+				new Core_Validate_Int(),
+				new Core_Validate_StringLength(array('min' => 1, 'max' => 6)),
 			),
 			'passwd' => array(
 				new Core_Validate_StringLength(array('min' => 8)),

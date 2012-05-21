@@ -17,6 +17,7 @@
 	<thead>
 		<tr>
 			<td>Autor</td>
+			<td>Nr indeksu</td>
 			<td>Czas wykonania</td>
 			<td>Akcje</td>
 		</tr>
@@ -24,9 +25,8 @@
 	<tbody>
 <?php foreach($this->oPaginator as $oSolution): ?>
 		<tr>
-			<td>
-					<?php echo $oSolution->getAuthor()->getFullName() ?>
-			</td>
+			<td><?php echo $oSolution->getAuthor()->getFullName() ?></td>
+			<td><?php echo number_format($oSolution->getAuthor()->getIndex(), 0, ',', ' ') ?></td>
 			<td><?php echo $oSolution->getRunTime() === null ? '---' : $oSolution->getRunTime() . 'ms' ?></td>
 			<td>
 				<a href="/solutions/show/id/<?php echo $oSolution->getId()?>">zobacz rozwiązanie</a>

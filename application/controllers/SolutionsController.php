@@ -100,7 +100,7 @@ class SolutionsController extends Core_Controller_Action
 
 		if($this->_request->isPost())
 		{
-			$oFilter = $this->getFilter();
+			$oFilter = $this->getFilter($oTask);
 
 			if($oFilter->isValid())
 			{
@@ -142,7 +142,7 @@ class SolutionsController extends Core_Controller_Action
 
 		if($this->_request->isPost())
 		{
-			$oFilter = $this->getFilter();
+			$oFilter = $this->getFilter($oSolution->getTask());
 
 			if($oFilter->isValid())
 			{
@@ -282,23 +282,31 @@ class SolutionsController extends Core_Controller_Action
 // FILTRY
 
 	/**
-	 * Zwraca filtr dla zadań
+	 * Zwraca filtr dla rozwiązań
 	 *
-	 * @param	\Model\Tasks\Task	$oTask	obiekt edytowanego zadania
+	 * @param	\Model\Tasks\Task	$oTask	obiekt zadania
 	 * @return	Core_Filter_Input
 	 */
-	protected function getFilter($oUser = null)
+	protected function getFilter(\Model\Tasks\Task $oTask)
 	{
 		$aValues = $this->_request->getPost();
+
+		if($oTask->getLanguage() === null)
+		{
+			$oLangVal = new Core_Validate_InArray(array_keys(\Model\Tasks\SolutionFactory::getLanguages()));
+		}
+		else
+		{
+			$aValues['language'] = $oTask->getLanguage();
+			$oLangVal = new Zend_Validate_Identical($oTask->getLanguage());
+		}
 
     	// walidatory
 		$aValidators = array(
 			'code'	=> array(
 			),
 			'language' => array(
-				new Core_Validate_InArray([
-					Solution::LANGUAGE_PHP
-				])
+				$oLangVal
 			)
 		);
 

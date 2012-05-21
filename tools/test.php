@@ -43,7 +43,7 @@ use \ScaZF\Tool\Validator\Schema;
 $oManager = Manager::getInstance();
 $oManager->init(CURRENT_PATH . '/Models', CURRENT_PATH .'/tools/Xml/Package.xsf');
 
-$sPackage = 'Users';
+$sPackage = 'Tasks';
 $sModelPath = '/home/WWW/PK_4/Challenges/application/models/'. $sPackage . '/Base';
 
 mkdir($sModelPath, 0777, true);

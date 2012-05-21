@@ -34,6 +34,8 @@ class BuildCron extends Core_Cron_Abstract
 			{
 				case Solution::LANGUAGE_PHP;
 					$this->buildPHP($oSolution);
+				case Solution::LANGUAGE_CPP;
+					$this->buildCPP($oSolution);
 					break;
 			}
 		}
@@ -83,6 +85,106 @@ class BuildCron extends Core_Cron_Abstract
 
 			unlink($sFile.'.php');
 			unlink($sFile.'.data');
+
+			$sResult = str_replace("\r", '', implode("\n", $aOutput));
+			$sOutput = str_replace("\r", '', $oSolution->getTask()->getOutput());
+
+			if($iReturn != 0)
+			{
+				$oSolution->setStatus(Solution::STATUS_ERROR);
+
+				$iRunTime = ceil($iEndTime - $iStartTime);
+				if($iRunTime > 1)
+				{
+					$oSolution->setInfo('Czas wykonania programu większy od '. self::TIME_LIMIT .'s');
+				}
+				else
+				{
+					$oSolution->setInfo('Błąd podczas uruchamiania programu');
+				}
+
+				$oSolution->setRunTime(null);
+			}
+			elseif(strcmp($sResult, $sOutput))
+			{
+				$oSolution->setStatus(Solution::STATUS_ERROR);
+				$oSolution->setInfo('Niepoprawny wynik działania programu');
+				$oSolution->setRunTime(null);
+			}
+			else
+			{
+				$oSolution->setStatus(Solution::STATUS_SUCCESS);
+				$oSolution->setRunTime(round(($iEndTime - $iStartTime) * 1000));
+				$oSolution->setInfo(null);
+			}
+		}
+
+		$oSolution->setWorkerId(null);
+		$oSolution->save();
+	}
+
+	/**
+	 * Buduje rozwiązanie C++
+	 */
+	protected function buildCPP(\Model\Tasks\Solution $oSolution)
+	{
+		$sTemp = PROJECT_PATH . '/data/tmp';
+		$sFile = $sTemp .'/'. str_replace([' ', '.'], '_', time() . microtime());
+
+		// wstepne sprawdzenie kodu
+		$sCode = html_entity_decode($oSolution->getCode(), ENT_QUOTES, 'UTF-8');
+
+		$aProhibitetFunc = [
+
+		];
+
+		$bGoodCode = true;
+		foreach($aProhibitetFunc as $sFunc)
+		{
+			if(strpos($sCode, $sFunc. '(') !== false)
+			{
+				$oSolution->setStatus(Solution::STATUS_ERROR);
+				$oSolution->setInfo('Wywołanie niedozwolonej funkcji: '. $sFunc);
+				$oSolution->setRunTime(null);
+				$bGoodCode = false;
+				break;
+			}
+		}
+
+		// kompilacja (do pliku *.run)
+		if($bGoodCode)
+		{
+			$aOutput = [];
+			file_put_contents($sFile . '.cpp', $sCode);
+
+			exec('<KOMPILATOR>'. $sFile .'.cpp', $aOutput, $iReturn);
+
+			if($iReturn != 0)
+			{
+				$oSolution->setStatus(Solution::STATUS_ERROR);
+				$oSolution->setInfo('Błąd podczas kompilacji programu');
+				$oSolution->setRunTime(null);
+
+				$bGoodCode = false;
+			}
+
+			unlink($sFile.'.cpp');
+		}
+
+		if($bGoodCode)
+		{
+			file_put_contents($sFile . '.data', $oSolution->getTask()->getInput());
+
+			// uruchomienie rozwiązania
+			$aOutput = [];
+			$iReturn = null;
+
+			$iStartTime = microtime(true);
+			exec('timeout '. self::TIME_LIMIT . $sFile .'.cpp "`cat '. $sFile .'.data`" 2> /dev/null', $aOutput, $iReturn);
+			$iEndTime = microtime(true);
+
+			unlink($sFile.'.php');
+			unlink($sFile.'.run');
 
 			$sResult = str_replace("\r", '', implode("\n", $aOutput));
 			$sOutput = str_replace("\r", '', $oSolution->getTask()->getOutput());

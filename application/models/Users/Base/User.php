@@ -57,6 +57,11 @@ trait User
 	 */
 	private $sStatus = null;
 
+	/**
+	 * @var	string
+	 */
+	private $sIndex = null;
+
 
 // INITIALIZATION
 
@@ -78,6 +83,7 @@ trait User
 		$this->sSurname = $aRow['u_surname'];
 		$this->sRole = $aRow['u_role'];
 		$this->sStatus = $aRow['u_status'];
+		$this->sIndex = $aRow['u_index'];
 
 
 
@@ -143,6 +149,14 @@ trait User
 	public function getStatus()
 	{
 		return $this->sStatus;
+	}
+
+	/**
+	 * @return	string
+	 */
+	public function getIndex()
+	{
+		return $this->sIndex;
 	}
 
 
@@ -222,6 +236,17 @@ trait User
 	{
 		$this->sStatus = $mValue;
 		$this->setDataValue(self::info()['table'], 'u_status', $mValue);
+		return $this;
+	}
+
+	/**
+	 * @param	string	$mValue		new value
+	 * @return	void
+	 */
+	public function setIndex($mValue)
+	{
+		$this->sIndex = $mValue;
+		$this->setDataValue(self::info()['table'], 'u_index', $mValue);
 		return $this;
 	}
 

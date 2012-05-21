@@ -36,11 +36,12 @@ trait UserFactory
 	 * @param	string	sSurname
 	 * @param	string	sRole
 	 * @param	string	sStatus
+	 * @param	string	sIndex
 	 * @return	\Model\Users\User
 	 */
-	public function create($sEmail, $sPasswd, $sSalt, $sName, $sSurname, $sRole, $sStatus)
+	public function create($sEmail, $sPasswd, $sSalt, $sName, $sSurname, $sRole, $sStatus, $sIndex)
 	{
-		$aData = $this->prepareToCreate([$sEmail, $sPasswd, $sSalt, $sName, $sSurname, $sRole, $sStatus]);
+		$aData = $this->prepareToCreate([$sEmail, $sPasswd, $sSalt, $sName, $sSurname, $sRole, $sStatus, $sIndex]);
 
 		return $this->createNewElement($aData);
 	}
@@ -61,13 +62,15 @@ trait UserFactory
 				'u_name' => $aData[3],
 				'u_surname' => $aData[4],
 				'u_role' => $aData[5],
-				'u_status' => $aData[6]
+				'u_status' => $aData[6],
+				'u_index' => $aData[7]
 		]];
 	}
 
 
 
 // FACTORY METHODS
+
 
 
 // OTHER

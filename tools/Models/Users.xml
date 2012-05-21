@@ -9,6 +9,7 @@
 		<field name="surname" 	type="string(80)" 	access="get,set" />
 		<field name="role"		type="enum(user,mod,admin)" 		access="get,set" />
 		<field name="status"	type="enum(inactive,active,banned)" access="get,set" />
+		<field name="index"		type="string(6)" 	access="get,set" />
 	</User>
 	<Admin extends="User">
 		<field name="login_attempts" 	type="string(255)"	access="get,set" />

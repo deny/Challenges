@@ -49,12 +49,26 @@
 	<label>Twoje rozwiązanie</label>
 </div>
 <form method="post" action="/solutions<?php echo $bEdit ? '/edit/id/'. $this->oSolution->getId() : '/add/id/'. $this->oTask->getId() ?>">
+
+<?php if($this->oTask->getLanguage() === null): ?>
+
 	<?php $sField = 'language';
 	echo $this->form_Field(
 		'język',
 		$sField,
 		$this->formSelect($sField, $this->form_Value($sField), null, $aEmpty + \Model\Tasks\SolutionFactory::getLanguages())
 	)?>
+
+<?php else: ?>
+
+	<?php $sField = 'language';
+	echo $this->form_Field(
+		'język',
+		$sField,
+		$this->formSelect($sField, $this->oTask->getLanguage(), ['disabled' => 'disable'], \Model\Tasks\SolutionFactory::getLanguages())
+	)?>
+
+<?php endif; ?>
 
 	<?php $sField = 'code';
 	echo $this->form_Field(

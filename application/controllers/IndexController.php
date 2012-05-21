@@ -22,7 +22,7 @@ class IndexController extends Core_Controller_Action
 	 */
 	public function indexAction()
 	{
-		if(isset($this->oCurrentUser)) // jeśli user jest zalogwany
+		if(isset($this->oCurrentUser)) // jeśli user jest zalogowany
     	{
     		$this->_redirect('/dashboard');
     	}
@@ -96,7 +96,8 @@ class IndexController extends Core_Controller_Action
 					$aValues['email'],
 					$aValues['passwd'],
 					$aValues['name'],
-					$aValues['surname']
+					$aValues['surname'],
+					$aValues['index']
 				);
 
 				$this->addMessage('Konto zostało utworzone. Zaloguj się.');
@@ -158,6 +159,11 @@ class IndexController extends Core_Controller_Action
 			),
 			'surname' => array(
 				new Core_Validate_StringLength(array('min' => 1, 'max' => 30)),
+			),
+			'index' => array(
+				'allowEmpty' => true,
+				new Core_Validate_Int(),
+				new Core_Validate_StringLength(array('min' => 1, 'max' => 6)),
 			),
 			'passwd' => array(
 				new Core_Validate_StringLength(array('min' => 8)),

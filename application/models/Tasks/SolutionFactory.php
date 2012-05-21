@@ -125,7 +125,8 @@ class SolutionFactory extends \Sca\DataObject\Factory
 	public static function getLanguages()
 	{
 		return [
-			Solution::LANGUAGE_PHP	=> 'PHP 5.4'
+			Solution::LANGUAGE_PHP	=> 'PHP 5.4',
+			Solution::LANGUAGE_CPP	=> 'C++'
 		];
 	}
 

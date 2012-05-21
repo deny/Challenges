@@ -38,6 +38,13 @@
 		$this->formText($sField, $this->form_Value($sField))
 	)?>
 
+	<?php $sField = 'language';
+	echo $this->form_Field(
+		'język',
+		$sField,
+		$this->formSelect($sField, $this->form_Value($sField), null, array('' => '-- dowolny --') + \Model\Tasks\SolutionFactory::getLanguages())
+	)?>
+
 	<?php $sField = 'description';
 	echo $this->form_Field(
 		'opis zadania',

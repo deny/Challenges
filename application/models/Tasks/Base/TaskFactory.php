@@ -35,11 +35,12 @@ trait TaskFactory
 	 * @param	string	sInput
 	 * @param	string	sOutput
 	 * @param	string	sAccess
+	 * @param	string	sLanguage
 	 * @return	\Model\Tasks\Task
 	 */
-	public function create($iAuthorId, $sName, $sDescription, $sInput, $sOutput, $sAccess)
+	public function create($iAuthorId, $sName, $sDescription, $sInput, $sOutput, $sAccess, $sLanguage)
 	{
-		$aData = $this->prepareToCreate([$iAuthorId, $sName, $sDescription, $sInput, $sOutput, $sAccess]);
+		$aData = $this->prepareToCreate([$iAuthorId, $sName, $sDescription, $sInput, $sOutput, $sAccess, $sLanguage]);
 
 		return $this->createNewElement($aData);
 	}
@@ -59,7 +60,8 @@ trait TaskFactory
 				't_description' => $aData[2],
 				't_input' => $aData[3],
 				't_output' => $aData[4],
-				't_access' => $aData[5]
+				't_access' => $aData[5],
+				't_language' => $aData[6]
 		]];
 	}
 

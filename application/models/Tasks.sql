@@ -6,6 +6,7 @@ CREATE TABLE `task` (
 	`t_input` TEXT,
 	`t_output` TEXT,
 	`t_access` ENUM("public","private"),
+	`t_language` ENUM("php","cpp"),
 	PRIMARY KEY(`t_id`)
 ) ENGINE=InnoDB;
 CREATE TABLE `solution` (
@@ -16,7 +17,7 @@ CREATE TABLE `solution` (
 	`s_info` TEXT,
 	`s_run_time` INT(11),
 	`s_worker_id` INT(11),
-	`s_language` ENUM("php"),
+	`s_language` ENUM("php","cpp"),
 	`s_status` ENUM("new","testing","success","error"),
 	PRIMARY KEY(`s_id`)
 ) ENGINE=InnoDB;

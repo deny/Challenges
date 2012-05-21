@@ -75,6 +75,7 @@ class UsersController extends Core_Controller_Action
 				$oUser->setEmail($aValues['email']);
 				$oUser->setNewRole($aValues['role']);
 				$oUser->setStatus($aValues['status']);
+				$oUser->setIndex(empty($aValues['index']) ? null: $aValues['index']);
 				$oUser->save();
 
 				$this->addMessage('Użytkownik <strong>'. $oUser->getFullName() . '</strong> został pomyślnie zmieniony');
@@ -90,6 +91,7 @@ class UsersController extends Core_Controller_Action
 				'name'		=> $oUser->getName(),
 				'surname'	=> $oUser->getSurname(),
 				'email'		=> $oUser->getEmail(),
+				'index'		=> $oUser->getIndex(),
 				'role'		=> $oUser->getRole(),
 				'status'	=> $oUser->getStatus()
 			]);
@@ -186,6 +188,11 @@ class UsersController extends Core_Controller_Action
 			),
 			'surname' => array(
 				new Core_Validate_StringLength(array('min' => 1, 'max' => 30)),
+			),
+			'index' => array(
+				'allowEmpty' => true,
+				new Core_Validate_Int(),
+				new Core_Validate_StringLength(array('min' => 1, 'max' => 6)),
 			),
 			'role' => array(
 				new Core_Validate_InArray(array_keys(\Model\Users\UserFactory::getRoles()))

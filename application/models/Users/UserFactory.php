@@ -14,13 +14,14 @@ class UserFactory extends \Sca\DataObject\Factory
 	/**
 	 * Create object
 	 *
-	 * @param	string	sEmail		adres email
-	 * @param	string	sPasswd		hasło
-	 * @param	string	sName		imię
-	 * @param	string	sSurname	nazwisko
+	 * @param	string	$sEmail		adres email
+	 * @param	string	$sPasswd		hasło
+	 * @param	string	$sName		imię
+	 * @param	string	$sSurname	nazwisko
+	 * @param	int		$iIndex		numer index
 	 * @return	\Model\Users\User
 	 */
-	public function createNew($sEmail, $sPasswd, $sName, $sSurname)
+	public function createNew($sEmail, $sPasswd, $sName, $sSurname, $iIndex)
 	{
 		$sSalt = sha1(time() . '_c0n57_'. $sEmail . $sPasswd);
 		$sPasswd = self::hashPasswd($sPasswd, $sSalt);
@@ -32,7 +33,8 @@ class UserFactory extends \Sca\DataObject\Factory
 			$sName,
 			$sSurname,
 			User::ROLE_USER,
-			User::STATUS_ACTIVE
+			User::STATUS_ACTIVE,
+			empty($iIndex) ? null : $iIndex
 		);
 	}
 

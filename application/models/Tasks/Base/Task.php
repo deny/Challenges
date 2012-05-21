@@ -13,6 +13,9 @@ trait Task
 	// CONST ACCESS_PUBLIC = 'public';
 	// CONST ACCESS_PRIVATE = 'private';
 
+	// CONST LANGUAGE_PHP = 'php';
+	// CONST LANGUAGE_CPP = 'cpp';
+
 
 
 // FIELDS
@@ -57,6 +60,11 @@ trait Task
 	 */
 	private $aParticipants = null;
 
+	/**
+	 * @var	string
+	 */
+	private $sLanguage = null;
+
 
 // INITIALIZATION
 
@@ -77,6 +85,7 @@ trait Task
 		$this->sInput = $aRow['t_input'];
 		$this->sOutput = $aRow['t_output'];
 		$this->sAccess = $aRow['t_access'];
+		$this->sLanguage = $aRow['t_language'];
 
 
 
@@ -172,6 +181,14 @@ trait Task
 		return $this->oParticipants;
 	}
 
+	/**
+	 * @return	string
+	 */
+	public function getLanguage()
+	{
+		return $this->sLanguage;
+	}
+
 
 // SETTERS
 
@@ -227,6 +244,17 @@ trait Task
 	{
 		$this->sAccess = $mValue;
 		$this->setDataValue(self::info()['table'], 't_access', $mValue);
+		return $this;
+	}
+
+	/**
+	 * @param	string	$mValue		new value
+	 * @return	void
+	 */
+	public function setLanguage($mValue)
+	{
+		$this->sLanguage = $mValue;
+		$this->setDataValue(self::info()['table'], 't_language', $mValue);
 		return $this;
 	}
 
