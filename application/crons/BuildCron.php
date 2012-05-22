@@ -34,6 +34,7 @@ class BuildCron extends Core_Cron_Abstract
 			{
 				case Solution::LANGUAGE_PHP;
 					$this->buildPHP($oSolution);
+					break;
 				case Solution::LANGUAGE_CPP;
 					$this->buildCPP($oSolution);
 					break;
@@ -100,7 +101,7 @@ class BuildCron extends Core_Cron_Abstract
 				}
 				else
 				{
-					$oSolution->setInfo('Błąd podczas uruchamiania programu');
+					$oSolution->setInfo('Błąd podczas uruchomienia programu');
 				}
 
 				$oSolution->setRunTime(null);
@@ -157,7 +158,7 @@ class BuildCron extends Core_Cron_Abstract
 			$aOutput = [];
 			file_put_contents($sFile . '.cpp', $sCode);
 
-			exec('<KOMPILATOR>'. $sFile .'.cpp', $aOutput, $iReturn);
+			exec('g++ '. $sFile .'.cpp -o '. $sFile . '.run 2> /dev/null', $aOutput, $iReturn);
 
 			if($iReturn != 0)
 			{
@@ -180,10 +181,10 @@ class BuildCron extends Core_Cron_Abstract
 			$iReturn = null;
 
 			$iStartTime = microtime(true);
-			exec('timeout '. self::TIME_LIMIT . $sFile .'.cpp "`cat '. $sFile .'.data`" 2> /dev/null', $aOutput, $iReturn);
+			exec('timeout '. self::TIME_LIMIT .' '. $sFile .'.run "`cat '. $sFile .'.data`" 2> /dev/null', $aOutput, $iReturn);
 			$iEndTime = microtime(true);
 
-			unlink($sFile.'.php');
+			unlink($sFile.'.data');
 			unlink($sFile.'.run');
 
 			$sResult = str_replace("\r", '', implode("\n", $aOutput));
@@ -200,7 +201,7 @@ class BuildCron extends Core_Cron_Abstract
 				}
 				else
 				{
-					$oSolution->setInfo('Błąd podczas uruchamiania programu');
+					$oSolution->setInfo('Błąd podczas uruchomienia programu');
 				}
 
 				$oSolution->setRunTime(null);
